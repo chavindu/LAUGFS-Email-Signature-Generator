@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Combobox } from "@/components/ui/combobox"
-import { Mail, RefreshCw, Monitor, Globe } from "lucide-react"
+import { Mail, RefreshCw, Monitor, Globe, Shield } from "lucide-react"
 import { useState, useEffect } from "react"
 import { SignaturePreview } from "@/components/signature-preview"
 import { RichTextCopy } from "@/components/rich-text-copy"
@@ -43,7 +43,7 @@ const companyLogos = [
   { id: "international", name: "LAUGFS International", path: "/images/international-logo.png" },
   { id: "restaurants", name: "LAUGFS Restaurants", path: "/images/restaurants-logo.png" },
   { id: "salt-chemicals", name: "LAUGFS Salt & Chemicals", path: "/images/salt-chemicals-logo.png" },
-  { id: "custom", name: "Custom Logo", path: "" },
+  { id: "custom", name: "Custom Company", path: "" },
 ]
 
 const designations = [
@@ -536,6 +536,8 @@ export default function HomePage() {
     address: "3rd Floor, No 101, Maya Avenue, Colombo 6, Sri Lanka.",
     selectedLogo: "holdings",
     customLogoBase64: "",
+    customCompanyName: "",
+    customDomain: "",
   })
 
   const [outlookType, setOutlookType] = useState("web")
@@ -576,17 +578,6 @@ export default function HomePage() {
       return signatureData.customLogoBase64
     }
     return logoBase64Cache[signatureData.selectedLogo] || ""
-  }
-
-  const formatName = (value: string) => {
-    // Clean up the input: trim and normalize spaces, but preserve spaces between words
-    const cleaned = value.trim().replace(/\s+/g, " ") // Replace multiple spaces with single space
-
-    // Split into words and limit to 2 words maximum
-    const words = cleaned.split(" ").filter((word) => word.length > 0)
-
-    // Return up to 2 words joined with a single space
-    return words.slice(0, 2).join(" ")
   }
 
   const formatMobileNumber = (value: string) => {
@@ -634,16 +625,19 @@ export default function HomePage() {
   }
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatName(e.target.value).toUpperCase()
-    setSignatureData({ ...signatureData, firstName: formatted })
+    setSignatureData({ ...signatureData, firstName: e.target.value.toUpperCase() })
   }
 
   const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatName(e.target.value).toUpperCase()
-    setSignatureData({ ...signatureData, lastName: formatted })
+    setSignatureData({ ...signatureData, lastName: e.target.value.toUpperCase() })
   }
 
   const getCurrentDomain = () => {
+    if (signatureData.selectedLogo === "custom" && signatureData.customDomain) {
+      const domain = signatureData.customDomain
+      const url = domain.startsWith("http") ? domain : `https://${domain}`
+      return { display: domain, url }
+    }
     return companyDomains[signatureData.selectedLogo as keyof typeof companyDomains] || companyDomains.holdings
   }
 
@@ -695,6 +689,8 @@ export default function HomePage() {
       address: "3rd Floor, No 101, Maya Avenue, Colombo 6, Sri Lanka.",
       selectedLogo: "holdings",
       customLogoBase64: "",
+      customCompanyName: "",
+      customDomain: "",
     })
   }
 
@@ -748,80 +744,100 @@ export default function HomePage() {
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
-          {/* Instructions */}
-          <Card className="h-fit">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-[#FFC000]/10">
-              <CardTitle className="flex items-center gap-2 text-blue-900">
-                <Monitor className="h-5 w-5" />
-                Setup Instructions
-              </CardTitle>
-              <CardDescription>Follow these steps to add your signature to Outlook</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6 pt-6">
-              <div className="space-y-4">
-                <div>
-                  <Label>Select your Outlook version:</Label>
-                  <div className="flex gap-2 mt-2">
-                    <Button
-                      variant={outlookType === "web" ? "default" : "outline"}
-                      onClick={() => setOutlookType("web")}
-                      className="flex-1"
-                    >
-                      <Globe className="h-4 w-4 mr-2" />
-                      Outlook Web
-                    </Button>
-                    <Button
-                      variant={outlookType === "desktop" ? "default" : "outline"}
-                      onClick={() => setOutlookType("desktop")}
-                      className="flex-1"
-                    >
-                      <Monitor className="h-4 w-4 mr-2" />
-                      Outlook Desktop
-                    </Button>
+          {/* Left Column */}
+          <div className="space-y-6">
+            {/* Instructions */}
+            <Card className="h-fit">
+              <CardHeader className="bg-gradient-to-r from-blue-50 to-[#FFC000]/10">
+                <CardTitle className="flex items-center gap-2 text-blue-900">
+                  <Monitor className="h-5 w-5" />
+                  Setup Instructions
+                </CardTitle>
+                <CardDescription>Follow these steps to add your signature to Outlook</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6 pt-6">
+                <div className="space-y-4">
+                  <div>
+                    <Label>Select your Outlook version:</Label>
+                    <div className="flex gap-2 mt-2">
+                      <Button
+                        variant={outlookType === "web" ? "default" : "outline"}
+                        onClick={() => setOutlookType("web")}
+                        className="flex-1"
+                      >
+                        <Globe className="h-4 w-4 mr-2" />
+                        Outlook Web
+                      </Button>
+                      <Button
+                        variant={outlookType === "desktop" ? "default" : "outline"}
+                        onClick={() => setOutlookType("desktop")}
+                        className="flex-1"
+                      >
+                        <Monitor className="h-4 w-4 mr-2" />
+                        Outlook Desktop
+                      </Button>
+                    </div>
+                  </div>
+
+                  {outlookType === "web" ? (
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-blue-900">Outlook Web/New Outlook:</h4>
+                      <ol className="space-y-2 text-sm list-decimal list-inside">
+                        <li>Open Outlook in your web browser</li>
+                        <li>Click the ⚙️ Settings gear icon in the top right</li>
+                        <li>Select "View all Outlook settings" at the bottom</li>
+                        <li>Go to "Mail" → "Compose and reply"</li>
+                        <li>Scroll down to "Email signature" section</li>
+                        <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature box</li>
+                        <li>Click "Save" to apply your signature</li>
+                      </ol>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-blue-900">Outlook Desktop (Classic):</h4>
+                      <ol className="space-y-2 text-sm list-decimal list-inside">
+                        <li>Open Outlook desktop application</li>
+                        <li>Go to "File" → "Options"</li>
+                        <li>Select "Mail" from the left sidebar</li>
+                        <li>Click "Signatures..." button</li>
+                        <li>Click "New" to create a new signature</li>
+                        <li>Give your signature a name</li>
+                        <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature editor</li>
+                        <li>Set as default for new messages and replies</li>
+                        <li>Click "OK" to save</li>
+                      </ol>
+                    </div>
+                  )}
+
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <h5 className="font-medium text-blue-900 mb-2">💡 Pro Tips:</h5>
+                    <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+                      <li>Use "Copy Rich Text" for best results - images and formatting are preserved</li>
+                      <li>Test your signature by sending yourself an email</li>
+                      <li>The signature will appear automatically in all new emails</li>
+                    </ul>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
 
-                {outlookType === "web" ? (
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-blue-900">Outlook Web/New Outlook:</h4>
-                    <ol className="space-y-2 text-sm list-decimal list-inside">
-                      <li>Open Outlook in your web browser</li>
-                      <li>Click the ⚙️ Settings gear icon in the top right</li>
-                      <li>Select "View all Outlook settings" at the bottom</li>
-                      <li>Go to "Mail" → "Compose and reply"</li>
-                      <li>Scroll down to "Email signature" section</li>
-                      <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature box</li>
-                      <li>Click "Save" to apply your signature</li>
-                    </ol>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-blue-900">Outlook Desktop (Classic):</h4>
-                    <ol className="space-y-2 text-sm list-decimal list-inside">
-                      <li>Open Outlook desktop application</li>
-                      <li>Go to "File" → "Options"</li>
-                      <li>Select "Mail" from the left sidebar</li>
-                      <li>Click "Signatures..." button</li>
-                      <li>Click "New" to create a new signature</li>
-                      <li>Give your signature a name</li>
-                      <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature editor</li>
-                      <li>Set as default for new messages and replies</li>
-                      <li>Click "OK" to save</li>
-                    </ol>
-                  </div>
-                )}
-
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h5 className="font-medium text-blue-900 mb-2">💡 Pro Tips:</h5>
-                  <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
-                    <li>Use "Copy Rich Text" for best results - images and formatting are preserved</li>
-                    <li>Test your signature by sending yourself an email</li>
-                    <li>The signature will appear automatically in all new emails</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+            {/* Privacy Notice */}
+            <Card>
+              <CardHeader className="bg-gradient-to-r from-green-50 to-blue-50">
+                <CardTitle className="flex items-center gap-2 text-green-900">
+                  <Shield className="h-5 w-5" />
+                  Privacy Notice
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <p className="text-sm text-gray-700">
+                  <strong>Your data is safe:</strong> This website does not save or store any user-entered information.
+                  All data is processed locally in your browser and is not transmitted to any server. Your personal
+                  information remains completely private and secure.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Form */}
           <Card className="h-fit">
@@ -835,7 +851,7 @@ export default function HomePage() {
             <CardContent className="space-y-4 pt-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="companyLogo">Company Logo *</Label>
+                  <Label htmlFor="companyLogo">Company Name *</Label>
                   <Select value={signatureData.selectedLogo} onValueChange={handleLogoChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select company logo" />
@@ -851,11 +867,32 @@ export default function HomePage() {
                 </div>
 
                 {signatureData.selectedLogo === "custom" && (
-                  <ImageUpload
-                    onImageChange={handleImageChange}
-                    currentImage={signatureData.customLogoBase64}
-                    label="Upload Custom Logo"
-                  />
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="customCompanyName">Custom Company Name</Label>
+                      <Input
+                        id="customCompanyName"
+                        placeholder="Enter your company name"
+                        value={signatureData.customCompanyName}
+                        onChange={(e) => setSignatureData({ ...signatureData, customCompanyName: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="customDomain">Company Website</Label>
+                      <Input
+                        id="customDomain"
+                        placeholder="www.yourcompany.com"
+                        value={signatureData.customDomain}
+                        onChange={(e) => setSignatureData({ ...signatureData, customDomain: e.target.value })}
+                      />
+                      <p className="text-xs text-gray-500">Enter your company website (with or without https://)</p>
+                    </div>
+                    <ImageUpload
+                      onImageChange={handleImageChange}
+                      currentImage={signatureData.customLogoBase64}
+                      label="Upload Custom Logo"
+                    />
+                  </div>
                 )}
 
                 <div className="grid grid-cols-2 gap-4">
@@ -863,23 +900,21 @@ export default function HomePage() {
                     <Label htmlFor="firstName">First Name *</Label>
                     <Input
                       id="firstName"
-                      placeholder="e.g., Themiya"
+                      placeholder="MANOJ"
                       value={signatureData.firstName}
                       onChange={handleFirstNameChange}
                       className="font-medium"
                     />
-                    <p className="text-xs text-gray-500">Max 2 words allowed</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name *</Label>
                     <Input
                       id="lastName"
-                      placeholder="e.g., De Soyza"
+                      placeholder="GAMAGE"
                       value={signatureData.lastName}
                       onChange={handleLastNameChange}
                       className="font-medium"
                     />
-                    <p className="text-xs text-gray-500">Max 2 words allowed</p>
                   </div>
                 </div>
 
@@ -987,10 +1022,6 @@ export default function HomePage() {
             <img src="/images/holdings-logo.png" alt="LAUGFS Holdings" className="h-6" />
           </div>
           <p className="text-gray-600">Crafted with ❤️ by ITSM Team</p>
-          <p className="text-xs text-gray-500 mt-2">
-            <strong>Privacy Notice:</strong> This website does not save or store any user-entered information. All data
-            is processed locally in your browser and is not transmitted to any server.
-          </p>
         </div>
       </footer>
     </div>
