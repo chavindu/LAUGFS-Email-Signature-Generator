@@ -1,3 +1,5 @@
+import React, { useRef, useState, useEffect } from "react"
+
 interface SignaturePreviewProps {
   data: {
     firstName: string
@@ -14,7 +16,7 @@ interface SignaturePreviewProps {
   }
 }
 
-const companyDomains = {
+const companyDomains: { [key: string]: { display: string; url: string } } = {
   lubricants: { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com" },
   international: { display: "www.laugfsinternational.lk", url: "https://www.laugfsinternational.lk" },
   holdings: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
@@ -31,6 +33,46 @@ const companyDomains = {
 }
 
 export function SignaturePreview({ data }: SignaturePreviewProps) {
+  const [logoWidth, setLogoWidth] = useState<number | undefined>(undefined)
+  const [nameWidth, setNameWidth] = useState<number | undefined>(undefined)
+  const logoRef = useRef<HTMLImageElement>(null)
+  const nameRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    if (logoRef.current) {
+      const handleLoad = () => {
+        setLogoWidth(logoRef.current?.naturalWidth ? (logoRef.current.naturalWidth * 48) / logoRef.current.naturalHeight : undefined)
+      }
+      const img = logoRef.current
+      img?.addEventListener('load', handleLoad)
+      // If already loaded
+      if (img?.complete) handleLoad()
+      return () => img?.removeEventListener('load', handleLoad)
+    }
+  }, [data.logoBase64])
+
+  useEffect(() => {
+    if (nameRef.current) {
+      // Measure the width of the name text
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        // Measure bold text for name
+        ctx.font = 'bold 10px Calibri, sans-serif'
+        const nameWidth = ctx.measureText(data.fullName).width
+        
+        // Measure regular text for designation and department
+        ctx.font = '10px Calibri, sans-serif'
+        const designationWidth = ctx.measureText(data.designation).width
+        const departmentWidth = ctx.measureText(data.department).width
+        
+        // Use the maximum width plus some padding
+        const maxWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 40
+        setNameWidth(maxWidth)
+      }
+    }
+  }, [data.fullName, data.designation, data.department])
+
   const showContactInfo = data.extension.length === 4
   const domain = companyDomains[data.selectedLogo] || companyDomains["holdings"]
 
@@ -40,8 +82,8 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
         style={{
           borderCollapse: "collapse",
           width: "670.5pt",
-          fontFamily: "Aptos, sans-serif",
-          fontSize: "16px",
+          fontFamily: "Calibri, sans-serif",
+          fontSize: "10px",
           marginLeft: "6.75pt",
           marginRight: "6.75pt",
           border: "none",
@@ -51,12 +93,12 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
           <tr>
             <td
               style={{
-                width: "166.25pt",
+                width: logoWidth ? `${logoWidth}px` : "auto",
                 borderRight: "1pt solid black",
                 borderTop: "none",
                 borderBottom: "none",
                 borderLeft: "none",
-                padding: "0in 0in 0in 0.2in",
+                padding: "0in 0.2in 0in 0.2in",
                 verticalAlign: "top",
               }}
             >
@@ -64,22 +106,20 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                 style={{
                   marginTop: "12.0pt",
                   marginBottom: "8.0pt",
-                  marginLeft: "-14.05pt",
                   lineHeight: "115%",
                 }}
               >
                 <img
-                  width="208"
-                  height="64"
+                  ref={logoRef}
                   src={data.logoBase64 || "/images/holdings-logo.png"}
                   alt="Company Logo"
-                  style={{ display: "block", maxHeight: "64px", width: "auto", maxWidth: "208px" }}
+                  style={{ display: "block", height: "48px", width: "auto", objectFit: "contain" }}
                 />
               </p>
             </td>
             <td
               style={{
-                width: "2.5in",
+                width: nameWidth ? `${nameWidth}px` : "auto",
                 borderRight: "1pt solid black",
                 borderTop: "none",
                 borderBottom: "none",
@@ -89,6 +129,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               }}
             >
               <p
+                ref={nameRef}
                 style={{
                   marginTop: "12.0pt",
                   marginBottom: "4.0pt",

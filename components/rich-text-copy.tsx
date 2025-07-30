@@ -72,7 +72,7 @@ const RichTextCopy: React.FC<RichTextCopyProps> = ({ htmlContent, className, dis
         ) : (
           <>
             <Copy className="h-4 w-4 mr-2" />
-            Copy Rich Text
+            Copy to Clipboard
           </>
         )}
       </Button>
