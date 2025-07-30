@@ -2,35 +2,35 @@
 
 import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
-import { Search } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
 
 interface ComboboxProps {
   options: string[]
   value: string
   onValueChange: (value: string) => void
-  placeholder: string
-  searchPlaceholder: string
-  className?: string
+  placeholder?: string
+  searchPlaceholder?: string
 }
 
-export function Combobox({ options, value, onValueChange, placeholder, searchPlaceholder, className }: ComboboxProps) {
+export function Combobox({
+  options,
+  value,
+  onValueChange,
+  placeholder = "Select option...",
+  searchPlaceholder = "Search...",
+}: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
-  const [searchTerm, setSearchTerm] = React.useState("")
+  const [searchValue, setSearchValue] = React.useState("")
 
-  const filteredOptions = React.useMemo(() => {
-    if (!searchTerm) return options
-    return options.filter((option) => option.toLowerCase().includes(searchTerm.toLowerCase()))
-  }, [options, searchTerm])
+  const filteredOptions = options.filter((option) => option.toLowerCase().includes(searchValue.toLowerCase()))
 
-  const handleSelect = (option: string) => {
-    onValueChange(option)
+  const handleSelect = (selectedValue: string) => {
+    onValueChange(selectedValue)
     setOpen(false)
-    setSearchTerm("")
+    setSearchValue("")
   }
 
   return (
@@ -40,43 +40,43 @@ export function Combobox({ options, value, onValueChange, placeholder, searchPla
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("w-full justify-between", className)}
+          className="w-full justify-between bg-transparent"
         >
-          <span className="truncate">{value || placeholder}</span>
+          {value || placeholder}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[--radix-popover-trigger-width] max-h-[300px] p-0" align="start">
-        <div className="flex items-center border-b px-3">
-          <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-          <Input
-            placeholder={searchPlaceholder}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="border-0 px-0 py-3 focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
-        </div>
-        <div className="max-h-[200px] overflow-y-auto">
-          {filteredOptions.length === 0 ? (
-            <div className="py-6 text-center text-sm text-muted-foreground">No option found.</div>
-          ) : (
-            <div className="p-1">
-              {filteredOptions.map((option) => (
+      <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+        <div className="flex flex-col">
+          <div className="p-2">
+            <input
+              type="text"
+              placeholder={searchPlaceholder}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="max-h-60 overflow-auto">
+            {filteredOptions.length === 0 ? (
+              <div className="p-4 text-sm text-gray-500 text-center">No options found.</div>
+            ) : (
+              filteredOptions.map((option) => (
                 <div
                   key={option}
                   className={cn(
-                    "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
-                    value === option && "bg-accent text-accent-foreground",
+                    "flex items-center px-3 py-2 text-sm cursor-pointer hover:bg-gray-100",
+                    value === option && "bg-blue-50",
                   )}
                   onClick={() => handleSelect(option)}
-                  onMouseDown={(e) => e.preventDefault()} // Prevent focus loss
+                  onMouseDown={(e) => e.preventDefault()}
                 >
                   <Check className={cn("mr-2 h-4 w-4", value === option ? "opacity-100" : "opacity-0")} />
-                  <span className="truncate">{option}</span>
+                  {option}
                 </div>
-              ))}
-            </div>
-          )}
+              ))
+            )}
+          </div>
         </div>
       </PopoverContent>
     </Popover>

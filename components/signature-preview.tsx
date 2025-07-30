@@ -21,7 +21,7 @@ const companyDomains = {
   "eco-sri": { display: "www.ecosri.lk", url: "https://www.ecosri.lk" },
   rubber: { display: "www.laugfsrubber.com", url: "https://www.laugfsrubber.com" },
   petroleum: { display: "laugfspetroleum.lk", url: "http://laugfspetroleum.lk" },
-  power: { display: "laugfspower.lk", url: "https://www.laugfspower.lk" },
+  power: { display: "laugfspower.lk", url: "https://laugfspower.lk" },
   "life-sciences": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
   restaurants: { display: "www.jade.lk", url: "https://www.jade.lk" },
   "salt-chemicals": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
@@ -42,6 +42,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
           fontSize: "16px",
           marginLeft: "6.75pt",
           marginRight: "6.75pt",
+          border: "none",
         }}
       >
         <tbody>
@@ -49,7 +50,10 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
             <td
               style={{
                 width: "166.25pt",
-                borderRight: "1pt solid windowtext",
+                borderRight: "1pt solid black",
+                borderTop: "none",
+                borderBottom: "none",
+                borderLeft: "none",
                 padding: "0in 0in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -74,7 +78,10 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
             <td
               style={{
                 width: "2.5in",
-                borderRight: "1pt solid windowtext",
+                borderRight: "1pt solid black",
+                borderTop: "none",
+                borderBottom: "none",
+                borderLeft: "none",
                 padding: "0in 0in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -82,7 +89,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               <p
                 style={{
                   marginTop: "12.0pt",
-                  marginBottom: "8.0pt",
+                  marginBottom: "4.0pt",
                   lineHeight: "1.0",
                 }}
               >
@@ -90,8 +97,8 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               </p>
               <p
                 style={{
-                  marginTop: "12.0pt",
-                  marginBottom: "8.0pt",
+                  marginTop: "4.0pt",
+                  marginBottom: "4.0pt",
                   lineHeight: "1.0",
                 }}
               >
@@ -99,7 +106,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               </p>
               <p
                 style={{
-                  marginTop: "12.0pt",
+                  marginTop: "4.0pt",
                   marginBottom: "8.0pt",
                   lineHeight: "1.0",
                 }}
@@ -110,6 +117,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
             <td
               style={{
                 width: "324.25pt",
+                border: "none",
                 padding: "0in 0in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -117,7 +125,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               <p
                 style={{
                   marginTop: "12.0pt",
-                  marginBottom: "8.0pt",
+                  marginBottom: "4.0pt",
                   lineHeight: "1.0",
                 }}
               >
@@ -125,8 +133,8 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               </p>
               <p
                 style={{
-                  marginTop: "12.0pt",
-                  marginBottom: "8.0pt",
+                  marginTop: "4.0pt",
+                  marginBottom: "4.0pt",
                   lineHeight: "1.0",
                 }}
               >
@@ -135,7 +143,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               {showContactInfo && (
                 <p
                   style={{
-                    marginTop: "12.0pt",
+                    marginTop: "4.0pt",
                     marginBottom: "8.0pt",
                     lineHeight: "1.0",
                   }}
@@ -151,6 +159,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               style={{
                 width: "670.5pt",
                 background: "#FFC000",
+                border: "none",
                 padding: "0in 0in 0in 0.2in",
               }}
             >

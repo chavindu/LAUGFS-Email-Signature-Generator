@@ -634,25 +634,25 @@ export default function HomePage() {
     const showContactInfo = signatureData.extension.length === 4
     const domain = getCurrentDomain()
 
-    return `<table style="border-collapse:collapse;width:670.5pt;margin-left:6.75pt;margin-right:6.75pt;">
+    return `<table style="border-collapse:collapse;width:670.5pt;margin-left:6.75pt;margin-right:6.75pt;border:none;">
     <tbody>
         <tr>
-            <td style="width:166.25pt;border-right:1pt solid windowtext;padding:0in 0in 0in 0.2in;vertical-align:top;">
+            <td style="width:166.25pt;border-right:1pt solid black;border-top:none;border-bottom:none;border-left:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
                 <p style="margin-top:12.0pt;margin-bottom:8.0pt;margin-left:-14.05pt;line-height:115%;font-size:16px;font-family:Aptos,sans-serif;"><img width="208" height="64" src="${logoSrc}" alt="Company Logo" style="display:block;max-height:64px;width:auto;max-width:208px;"></p>
             </td>
-            <td style="width:2.5in;border-right:1pt solid windowtext;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;"><strong>${signatureData.fullName}</strong></p>
-                <p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.designation}</p>
-                <p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.department}</p>
+            <td style="width:2.5in;border-right:1pt solid black;border-top:none;border-bottom:none;border-left:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
+                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;"><strong>${signatureData.fullName}</strong></p>
+                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.designation}</p>
+                <p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.department}</p>
             </td>
-            <td style="width:324.25pt;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.address}</p>
-                <p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
-                ${showContactInfo ? `<p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
+            <td style="width:324.25pt;border:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
+                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.address}</p>
+                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
+                ${showContactInfo ? `<p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
             </td>
         </tr>
         <tr>
-            <td colspan="3" style="width:670.5pt;background:#FFC000;padding:0in 0in 0in 0.2in;">
+            <td colspan="3" style="width:670.5pt;background:#FFC000;border:none;padding:0in 0in 0in 0.2in;">
                 <p style="margin:0;line-height:115%;font-size:16px;font-family:Aptos,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886;font-weight:bold;text-decoration:underline;">${domain.display}</a></span></p>
             </td>
         </tr>
