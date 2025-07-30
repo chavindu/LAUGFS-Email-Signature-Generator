@@ -1,5 +1,7 @@
 interface SignaturePreviewProps {
   data: {
+    firstName: string
+    lastName: string
     fullName: string
     designation: string
     department: string

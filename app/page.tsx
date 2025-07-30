@@ -526,7 +526,8 @@ const departments = [
 
 export default function HomePage() {
   const [signatureData, setSignatureData] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     designation: "",
     department: "",
     mobile: "",
@@ -577,6 +578,17 @@ export default function HomePage() {
     return logoBase64Cache[signatureData.selectedLogo] || ""
   }
 
+  const formatName = (value: string) => {
+    // Clean up the input: trim and normalize spaces, but preserve spaces between words
+    const cleaned = value.trim().replace(/\s+/g, " ") // Replace multiple spaces with single space
+
+    // Split into words and limit to 2 words maximum
+    const words = cleaned.split(" ").filter((word) => word.length > 0)
+
+    // Return up to 2 words joined with a single space
+    return words.slice(0, 2).join(" ")
+  }
+
   const formatMobileNumber = (value: string) => {
     // Remove all non-digits
     const digits = value.replace(/\D/g, "")
@@ -621,18 +633,29 @@ export default function HomePage() {
     setSignatureData({ ...signatureData, extension: value })
   }
 
-  const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSignatureData({ ...signatureData, fullName: e.target.value.toUpperCase() })
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatName(e.target.value).toUpperCase()
+    setSignatureData({ ...signatureData, firstName: formatted })
+  }
+
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatName(e.target.value).toUpperCase()
+    setSignatureData({ ...signatureData, lastName: formatted })
   }
 
   const getCurrentDomain = () => {
     return companyDomains[signatureData.selectedLogo as keyof typeof companyDomains] || companyDomains.holdings
   }
 
+  const getFullName = () => {
+    return `${signatureData.firstName} ${signatureData.lastName}`.trim()
+  }
+
   const generateSignatureHTML = () => {
     const logoSrc = getCurrentLogoBase64()
     const showContactInfo = signatureData.extension.length === 4
     const domain = getCurrentDomain()
+    const fullName = getFullName()
 
     return `<table style="border-collapse:collapse;width:670.5pt;margin-left:6.75pt;margin-right:6.75pt;border:none;">
     <tbody>
@@ -641,7 +664,7 @@ export default function HomePage() {
                 <p style="margin-top:12.0pt;margin-bottom:8.0pt;margin-left:-14.05pt;line-height:115%;font-size:16px;font-family:Aptos,sans-serif;"><img width="208" height="64" src="${logoSrc}" alt="Company Logo" style="display:block;max-height:64px;width:auto;max-width:208px;"></p>
             </td>
             <td style="width:2.5in;border-right:1pt solid black;border-top:none;border-bottom:none;border-left:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;"><strong>${signatureData.fullName}</strong></p>
+                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;"><strong>${fullName}</strong></p>
                 <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.designation}</p>
                 <p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.department}</p>
             </td>
@@ -662,7 +685,8 @@ export default function HomePage() {
 
   const resetForm = () => {
     setSignatureData({
-      fullName: "",
+      firstName: "",
+      lastName: "",
       designation: "",
       department: "",
       mobile: "",
@@ -684,7 +708,8 @@ export default function HomePage() {
 
   const isFormValid = () => {
     return (
-      signatureData.fullName &&
+      signatureData.firstName &&
+      signatureData.lastName &&
       signatureData.designation &&
       signatureData.department &&
       signatureData.mobile &&
@@ -833,15 +858,29 @@ export default function HomePage() {
                   />
                 )}
 
-                <div className="space-y-2">
-                  <Label htmlFor="fullName">Full Name *</Label>
-                  <Input
-                    id="fullName"
-                    placeholder="Enter your full name"
-                    value={signatureData.fullName}
-                    onChange={handleFullNameChange}
-                    className="font-medium"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name *</Label>
+                    <Input
+                      id="firstName"
+                      placeholder="e.g., Themiya"
+                      value={signatureData.firstName}
+                      onChange={handleFirstNameChange}
+                      className="font-medium"
+                    />
+                    <p className="text-xs text-gray-500">Max 2 words allowed</p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Input
+                      id="lastName"
+                      placeholder="e.g., De Soyza"
+                      value={signatureData.lastName}
+                      onChange={handleLastNameChange}
+                      className="font-medium"
+                    />
+                    <p className="text-xs text-gray-500">Max 2 words allowed</p>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -852,6 +891,8 @@ export default function HomePage() {
                     onValueChange={(value) => setSignatureData({ ...signatureData, designation: value })}
                     placeholder="Select or search your designation"
                     searchPlaceholder="Search designations..."
+                    allowCustom={true}
+                    customPlaceholder="Enter your custom designation..."
                   />
                 </div>
 
@@ -863,6 +904,8 @@ export default function HomePage() {
                     onValueChange={(value) => setSignatureData({ ...signatureData, department: value })}
                     placeholder="Select or search your department"
                     searchPlaceholder="Search departments..."
+                    allowCustom={true}
+                    customPlaceholder="Enter your custom department..."
                   />
                 </div>
 
@@ -929,6 +972,7 @@ export default function HomePage() {
             <SignaturePreview
               data={{
                 ...signatureData,
+                fullName: getFullName(),
                 logoBase64: getCurrentLogoBase64(),
               }}
             />
@@ -943,6 +987,10 @@ export default function HomePage() {
             <img src="/images/holdings-logo.png" alt="LAUGFS Holdings" className="h-6" />
           </div>
           <p className="text-gray-600">Crafted with ❤️ by ITSM Team</p>
+          <p className="text-xs text-gray-500 mt-2">
+            <strong>Privacy Notice:</strong> This website does not save or store any user-entered information. All data
+            is processed locally in your browser and is not transmitted to any server.
+          </p>
         </div>
       </footer>
     </div>

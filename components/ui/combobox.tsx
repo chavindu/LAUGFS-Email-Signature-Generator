@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown, Plus } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -13,6 +13,8 @@ interface ComboboxProps {
   onValueChange: (value: string) => void
   placeholder?: string
   searchPlaceholder?: string
+  allowCustom?: boolean
+  customPlaceholder?: string
 }
 
 export function Combobox({
@@ -21,9 +23,12 @@ export function Combobox({
   onValueChange,
   placeholder = "Select option...",
   searchPlaceholder = "Search...",
+  allowCustom = false,
+  customPlaceholder = "Enter custom value...",
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
   const [searchValue, setSearchValue] = React.useState("")
+  const [isCustomMode, setIsCustomMode] = React.useState(false)
 
   const filteredOptions = options.filter((option) => option.toLowerCase().includes(searchValue.toLowerCase()))
 
@@ -31,6 +36,29 @@ export function Combobox({
     onValueChange(selectedValue)
     setOpen(false)
     setSearchValue("")
+    setIsCustomMode(false)
+  }
+
+  const handleCustomSubmit = () => {
+    if (searchValue.trim()) {
+      // Capitalize each word in the custom value
+      const capitalizedValue = searchValue
+        .trim()
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(" ")
+
+      onValueChange(capitalizedValue)
+      setOpen(false)
+      setSearchValue("")
+      setIsCustomMode(false)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && isCustomMode && searchValue.trim()) {
+      handleCustomSubmit()
+    }
   }
 
   return (
@@ -51,16 +79,39 @@ export function Combobox({
           <div className="p-2">
             <input
               type="text"
-              placeholder={searchPlaceholder}
+              placeholder={isCustomMode ? customPlaceholder : searchPlaceholder}
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={handleKeyDown}
               className="w-full px-3 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+
+          {allowCustom && (
+            <div className="px-2 pb-2">
+              {!isCustomMode ? (
+                <Button variant="outline" size="sm" onClick={() => setIsCustomMode(true)} className="w-full text-xs">
+                  <Plus className="h-3 w-3 mr-1" />
+                  Add Custom Option
+                </Button>
+              ) : (
+                <Button
+                  variant="default"
+                  size="sm"
+                  onClick={handleCustomSubmit}
+                  disabled={!searchValue.trim()}
+                  className="w-full text-xs"
+                >
+                  Add "{searchValue}"
+                </Button>
+              )}
+            </div>
+          )}
+
           <div className="max-h-60 overflow-auto">
-            {filteredOptions.length === 0 ? (
+            {!isCustomMode && filteredOptions.length === 0 ? (
               <div className="p-4 text-sm text-gray-500 text-center">No options found.</div>
-            ) : (
+            ) : !isCustomMode ? (
               filteredOptions.map((option) => (
                 <div
                   key={option}
@@ -75,6 +126,10 @@ export function Combobox({
                   {option}
                 </div>
               ))
+            ) : (
+              <div className="p-4 text-sm text-gray-500 text-center">
+                Type your custom option above and press Enter or click "Add"
+              </div>
             )}
           </div>
         </div>
