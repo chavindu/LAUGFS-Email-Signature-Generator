@@ -757,7 +757,7 @@ export default function HomePage() {
     const nameWidth = calculateTextWidth(fullName, true) // Bold text
     const designationWidth = calculateTextWidth(signatureData.designation, false)
     const departmentWidth = calculateTextWidth(signatureData.department, false)
-    const maxTextWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 40
+    const maxTextWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 60
 
     return `<table style="border-collapse:collapse;width:670.5pt;margin-left:6.75pt;margin-right:6.75pt;border:none;">
     <tbody>
@@ -770,7 +770,7 @@ export default function HomePage() {
                 <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.designation}</p>
                 <p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.department}</p>
             </td>
-            <td style="width:324.25pt;border:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
+            <td style="width:324.25pt;border-top:none;border-bottom:none;border-left:none;border-right:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
                 <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.address}</p>
                 <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
                 ${showContactInfo ? `<p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}

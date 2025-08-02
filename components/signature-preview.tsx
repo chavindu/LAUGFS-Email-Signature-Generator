@@ -66,8 +66,8 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
         const designationWidth = ctx.measureText(data.designation).width
         const departmentWidth = ctx.measureText(data.department).width
         
-        // Use the maximum width plus some padding
-        const maxWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 40
+        // Use the maximum width plus more padding for better fit
+        const maxWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 60
         setNameWidth(maxWidth)
       }
     }
@@ -160,7 +160,10 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
             <td
               style={{
                 width: "324.25pt",
-                border: "none",
+                borderTop: "none",
+                borderBottom: "none",
+                borderLeft: "none",
+                borderRight: "none",
                 padding: "0in 0in 0in 0.2in",
                 verticalAlign: "top",
               }}
