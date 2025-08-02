@@ -15,34 +15,44 @@ import { RichTextCopy } from "@/components/rich-text-copy"
 import { ImageUpload } from "@/components/image-upload"
 
 const companyDomains = {
-  lubricants: { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com" },
-  international: { display: "www.laugfsinternational.lk", url: "https://www.laugfsinternational.lk" },
-  holdings: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  gas: { display: "www.laugfsgas.lk", url: "https://www.laugfsgas.lk" },
-  engineering: { display: "www.laugfsengineering.lk", url: "https://www.laugfsengineering.lk" },
+  "anantaya-chilaw": { display: "www.anantaya.lk/chilaw/", url: "https://www.anantaya.lk/chilaw/" },
+  "anantaya-passikudah": { display: "www.anantaya.lk/passikudah/", url: "https://www.anantaya.lk/passikudah/" },
   "eco-sri": { display: "www.ecosri.lk", url: "https://www.ecosri.lk" },
-  rubber: { display: "www.laugfsrubber.com", url: "https://www.laugfsrubber.com" },
-  petroleum: { display: "laugfspetroleum.lk", url: "http://laugfspetroleum.lk" },
-  power: { display: "laugfspower.lk", url: "https://laugfspower.lk" },
+  "engineering": { display: "www.laugfsengineering.lk", url: "https://www.laugfsengineering.lk" },
+  "europe-bv": { display: "www.laugfs.eu", url: "https://laugfs.eu/" },
+  "gas": { display: "www.laugfsgas.lk", url: "https://www.laugfsgas.lk" },
+  "holdings": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
+  "international": { display: "www.laugfsinternational.lk", url: "https://www.laugfsinternational.lk" },
   "life-sciences": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  restaurants: { display: "www.jade.lk", url: "https://www.jade.lk" },
+  "lubricants": { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com" },
+  "petroleum": { display: "laugfspetroleum.lk", url: "http://laugfspetroleum.lk" },
+  "power": { display: "laugfspower.lk", url: "https://laugfspower.lk" },
+  "restaurants": { display: "www.jade.lk", url: "https://www.jade.lk" },
+  "rubber": { display: "www.laugfsrubber.com", url: "https://www.laugfsrubber.com" },
   "salt-chemicals": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  custom: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
+  "slogal": { display: "www.slogal.com", url: "https://www.slogal.com/" },
+  "usa-llc": { display: "www.laugfsusa.com", url: "https://laugfsusa.com/" },
+  "custom": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
 }
 
 const companyLogos = [
-  { id: "holdings", name: "LAUGFS Holdings", path: "/images/holdings-logo.png" },
-  { id: "engineering", name: "LAUGFS Engineering", path: "/images/engineering-logo.png" },
-  { id: "lubricants", name: "LAUGFS Lubricants", path: "/images/lubricants-logo.png" },
-  { id: "eco-sri", name: "LAUGFS Eco Sri", path: "/images/eco-sri-logo.png" },
-  { id: "rubber", name: "LAUGFS Rubber", path: "/images/rubber-logo.png" },
-  { id: "life-sciences", name: "LAUGFS Life Sciences", path: "/images/life-sciences-logo.png" },
-  { id: "gas", name: "LAUGFS Gas", path: "/images/gas-logo.png" },
-  { id: "power", name: "LAUGFS Power", path: "/images/power-logo.png" },
-  { id: "petroleum", name: "LAUGFS Petroleum", path: "/images/petroleum-logo.png" },
-  { id: "international", name: "LAUGFS International", path: "/images/international-logo.png" },
-  { id: "restaurants", name: "LAUGFS Restaurants", path: "/images/restaurants-logo.png" },
-  { id: "salt-chemicals", name: "LAUGFS Salt & Chemicals", path: "/images/salt-chemicals-logo.png" },
+  { id: "anantaya-chilaw", name: "Anantaya Resort and Spa Chilaw", path: "/images/Anantaya Resort and Spa Chilaw.png" },
+  { id: "anantaya-passikudah", name: "Anantaya Resort and Spa Passikuda", path: "/images/Anantaya Resort and Spa Passikuda.png" },
+  { id: "eco-sri", name: "LAUGFS Eco Sri", path: "/images/LAUGFS Eco Sri.png" },
+  { id: "engineering", name: "LAUGFS Engineering", path: "/images/LAUGFS Engineering.png" },
+  { id: "europe-bv", name: "LAUGFS Europe BV", path: "/images/LAUGFS Europe BV.png" },
+  { id: "gas", name: "LAUGFS Gas", path: "/images/LAUGFS Gas.png" },
+  { id: "holdings", name: "LAUGFS Holdings", path: "/images/LAUGFS Holdings.png" },
+  { id: "international", name: "LAUGFS International", path: "/images/LAUGFS International.png" },
+  { id: "life-sciences", name: "LAUGFS Life Sciences", path: "/images/LAUGFS Life Sciences.png" },
+  { id: "lubricants", name: "LAUGFS Lubricants", path: "/images/LAUGFS Lubricants.png" },
+  { id: "petroleum", name: "LAUGFS Petroleum", path: "/images/LAUGFS Petroleum.png" },
+  { id: "power", name: "LAUGFS Power", path: "/images/LAUGFS Power.png" },
+  { id: "restaurants", name: "LAUGFS Restaurants", path: "/images/LAUGFS Restaurants.png" },
+  { id: "rubber", name: "LAUGFS Rubber", path: "/images/LAUGFS Rubber.png" },
+  { id: "salt-chemicals", name: "LAUGFS Salt and Chemicals", path: "/images/LAUGFS Salt and Chemicals.png" },
+  { id: "slogal", name: "SLOGAL Energy DMCC", path: "/images/SLOGAL Energy DMCC.png" },
+  { id: "usa-llc", name: "LAUGFS USA LLC", path: "/images/LAUGFS USA LLC.png" },
   { id: "custom", name: "Custom Company", path: "" },
 ]
 
@@ -60,7 +70,6 @@ const designations = [
   "AGM - Quality, Certifications & Compliance",
   "AGM - Sales & Operations",
   "AGM - Sales Operations",
-  "AGM - Finance",
   "Architect",
   "Area Manager",
   "Area Sales Manager",
@@ -467,7 +476,6 @@ const departments = [
   "Corporate Communication",
   "Supply Chain",
   "Stores",
-  "Maintenance",
   "Engineering and Maintenance",
   "Operation",
   "Operation & Admin",
@@ -542,9 +550,36 @@ export default function HomePage() {
 
   const [outlookType, setOutlookType] = useState("web")
   const [logoBase64Cache, setLogoBase64Cache] = useState<Record<string, string>>({})
+  const [generatedHTML, setGeneratedHTML] = useState("")
+  const [currentLogoBase64, setCurrentLogoBase64] = useState("")
 
   // Convert company logos to base64 on component mount
   useEffect(() => {
+    const resizeImage = (base64: string, targetHeight: number = 48): Promise<string> => {
+      return new Promise((resolve) => {
+        const img = new Image()
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          const ctx = canvas.getContext('2d')
+          
+          // Calculate new width maintaining aspect ratio
+          const aspectRatio = img.width / img.height
+          const newWidth = Math.round(targetHeight * aspectRatio)
+          
+          canvas.width = newWidth
+          canvas.height = targetHeight
+          
+          // Draw resized image
+          ctx?.drawImage(img, 0, 0, newWidth, targetHeight)
+          
+          // Convert to base64
+          const resizedBase64 = canvas.toDataURL('image/png', 0.8)
+          resolve(resizedBase64)
+        }
+        img.src = base64
+      })
+    }
+
     const convertLogos = async () => {
       for (const logo of companyLogos) {
         if (logo.path) {
@@ -552,8 +587,10 @@ export default function HomePage() {
             const response = await fetch(logo.path)
             const blob = await response.blob()
             const reader = new FileReader()
-            reader.onload = () => {
-              setLogoBase64Cache((prev) => ({ ...prev, [logo.id]: reader.result as string }))
+            reader.onload = async () => {
+              const originalBase64 = reader.result as string
+              const resizedBase64 = await resizeImage(originalBase64, 48)
+              setLogoBase64Cache((prev) => ({ ...prev, [logo.id]: resizedBase64 }))
             }
             reader.readAsDataURL(blob)
           } catch (error) {
@@ -565,6 +602,17 @@ export default function HomePage() {
     convertLogos()
   }, [])
 
+  // Update generated HTML and current logo when signature data changes
+  useEffect(() => {
+    const updateSignature = async () => {
+      const logo = await getCurrentLogoBase64()
+      setCurrentLogoBase64(logo)
+      const html = await generateSignatureHTML()
+      setGeneratedHTML(html)
+    }
+    updateSignature()
+  }, [signatureData, logoBase64Cache])
+
   // Auto-generate direct line from extension with correct format
   useEffect(() => {
     if (signatureData.extension && signatureData.extension.length === 4) {
@@ -573,9 +621,37 @@ export default function HomePage() {
     }
   }, [signatureData.extension])
 
-  const getCurrentLogoBase64 = () => {
+  const resizeImage = (base64: string, targetHeight: number = 48): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+        
+        // Calculate new width maintaining aspect ratio
+        const aspectRatio = img.width / img.height
+        const newWidth = Math.round(targetHeight * aspectRatio)
+        
+        canvas.width = newWidth
+        canvas.height = targetHeight
+        
+        // Draw resized image
+        ctx?.drawImage(img, 0, 0, newWidth, targetHeight)
+        
+        // Convert to base64
+        const resizedBase64 = canvas.toDataURL('image/png', 0.8)
+        resolve(resizedBase64)
+      }
+      img.src = base64
+    })
+  }
+
+  const getCurrentLogoBase64 = async () => {
     if (signatureData.selectedLogo === "custom") {
-      return signatureData.customLogoBase64
+      if (signatureData.customLogoBase64) {
+        return await resizeImage(signatureData.customLogoBase64, 48)
+      }
+      return ""
     }
     return logoBase64Cache[signatureData.selectedLogo] || ""
   }
@@ -645,32 +721,64 @@ export default function HomePage() {
     return `${signatureData.firstName} ${signatureData.lastName}`.trim()
   }
 
-  const generateSignatureHTML = () => {
-    const logoSrc = getCurrentLogoBase64()
+  const generateSignatureHTML = async () => {
+    const logoSrc = await getCurrentLogoBase64()
     const showContactInfo = signatureData.extension.length === 4
     const domain = getCurrentDomain()
     const fullName = getFullName()
 
+    // Calculate dynamic column widths
+    const calculateTextWidth = (text: string, isBold: boolean = false) => {
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.font = isBold ? 'bold 10px Calibri, sans-serif' : '10px Calibri, sans-serif'
+        return ctx.measureText(text).width
+      }
+      return 0
+    }
+
+    // Calculate logo width (assuming 48px height)
+    const getLogoWidth = async () => {
+      return new Promise<number>((resolve) => {
+        const img = new Image()
+        img.onload = () => {
+          const aspectRatio = img.width / img.height
+          const logoWidth = Math.round(48 * aspectRatio)
+          resolve(logoWidth)
+        }
+        img.src = logoSrc
+      })
+    }
+
+    const logoWidth = await getLogoWidth()
+    
+    // Calculate name column width with proper bold text measurement
+    const nameWidth = calculateTextWidth(fullName, true) // Bold text
+    const designationWidth = calculateTextWidth(signatureData.designation, false)
+    const departmentWidth = calculateTextWidth(signatureData.department, false)
+    const maxTextWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 60
+
     return `<table style="border-collapse:collapse;width:670.5pt;margin-left:6.75pt;margin-right:6.75pt;border:none;">
     <tbody>
         <tr>
-            <td style="width:166.25pt;border-right:1pt solid black;border-top:none;border-bottom:none;border-left:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:8.0pt;margin-left:-14.05pt;line-height:115%;font-size:16px;font-family:Aptos,sans-serif;"><img width="208" height="64" src="${logoSrc}" alt="Company Logo" style="display:block;max-height:64px;width:auto;max-width:208px;"></p>
+            <td style="width:${logoWidth}px;border-right:1pt solid black;border-top:none;border-bottom:none;border-left:none;padding:0in 0.2in 0in 0.2in;vertical-align:top;">
+                <p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:115%;font-size:10px;font-family:Calibri,sans-serif;"><img src="${logoSrc}" alt="Company Logo" style="display:block;height:48px;width:auto;object-fit:contain;"></p>
             </td>
-            <td style="width:2.5in;border-right:1pt solid black;border-top:none;border-bottom:none;border-left:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;"><strong>${fullName}</strong></p>
-                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.designation}</p>
-                <p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.department}</p>
+            <td style="width:${maxTextWidth}px;border-right:1pt solid black;border-top:none;border-bottom:none;border-left:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
+                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;"><strong>${fullName}</strong></p>
+                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.designation}</p>
+                <p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.department}</p>
             </td>
-            <td style="width:324.25pt;border:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">${signatureData.address}</p>
-                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
-                ${showContactInfo ? `<p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:16px;font-family:Aptos,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
+            <td style="width:324.25pt;border-top:none;border-bottom:none;border-left:none;border-right:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
+                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.address}</p>
+                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
+                ${showContactInfo ? `<p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
             </td>
         </tr>
         <tr>
             <td colspan="3" style="width:670.5pt;background:#FFC000;border:none;padding:0in 0in 0in 0.2in;">
-                <p style="margin:0;line-height:115%;font-size:16px;font-family:Aptos,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886;font-weight:bold;text-decoration:underline;">${domain.display}</a></span></p>
+                <p style="margin:0;line-height:115%;font-size:10px;font-family:Calibri,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886;font-weight:bold;text-decoration:underline;">${domain.display}</a></span></p>
             </td>
         </tr>
     </tbody>
@@ -728,7 +836,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="h-10 w-px bg-gray-300"></div>
-              <img src="/images/holdings-logo.png" alt="LAUGFS Holdings" className="h-10" />
+              <img src="/images/LAUGFS Holdings.png" alt="LAUGFS Holdings" className="h-10" />
             </div>
 
             {/* Right side - Text */}
@@ -991,7 +1099,7 @@ export default function HomePage() {
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Reset
                 </Button>
-                <RichTextCopy htmlContent={generateSignatureHTML()} className="flex-1" disabled={!isFormValid()} />
+                <RichTextCopy htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
               </div>
             </CardContent>
           </Card>
@@ -1008,7 +1116,7 @@ export default function HomePage() {
               data={{
                 ...signatureData,
                 fullName: getFullName(),
-                logoBase64: getCurrentLogoBase64(),
+                logoBase64: currentLogoBase64,
               }}
             />
           </CardContent>
@@ -1019,7 +1127,7 @@ export default function HomePage() {
       <footer className="bg-white border-t-4 border-[#FFC000] mt-12">
         <div className="container mx-auto px-4 py-6 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <img src="/images/holdings-logo.png" alt="LAUGFS Holdings" className="h-6" />
+            <img src="/images/LAUGFS Holdings.png" alt="LAUGFS Holdings" className="h-6" />
           </div>
           <p className="text-gray-600">Crafted with ❤️ by ITSM Team</p>
         </div>
