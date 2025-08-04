@@ -837,7 +837,6 @@ export default function HomePage() {
       signatureData.firstName &&
       signatureData.lastName &&
       signatureData.designation &&
-      signatureData.department &&
       signatureData.mobile &&
       signatureData.address
     )
@@ -1062,7 +1061,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="department">Department *</Label>
+                  <Label htmlFor="department">Department</Label>
                   <Combobox
                     options={departments}
                     value={signatureData.department}
