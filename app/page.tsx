@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,42 +9,49 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Combobox } from "@/components/ui/combobox"
 import { Mail, RefreshCw, Monitor, Globe, Shield } from "lucide-react"
 import { useState, useEffect } from "react"
-import { SignaturePreview } from "@/components/signature-preview"
-import { RichTextCopy } from "@/components/rich-text-copy"
 import { ImageUpload } from "@/components/image-upload"
+import { RichTextCopyTinyMCE } from "@/components/rich-text-copy-tinymce"
+import { TinyMCEPreview } from "@/components/tinymce-preview"
 
 const companyDomains = {
   "anantaya-chilaw": { display: "www.anantaya.lk/chilaw/", url: "https://www.anantaya.lk/chilaw/" },
   "anantaya-passikudah": { display: "www.anantaya.lk/passikudah/", url: "https://www.anantaya.lk/passikudah/" },
   "business-solutions": { display: "www.laugfs.lk", url: "https://www.laugfs.lk/" },
   "eco-sri": { display: "www.ecosri.lk", url: "https://www.ecosri.lk" },
-  "engineering": { display: "www.laugfsengineering.lk", url: "https://www.laugfsengineering.lk" },
+  engineering: { display: "www.laugfsengineering.lk", url: "https://www.laugfsengineering.lk" },
   "europe-bv": { display: "www.laugfs.eu", url: "https://laugfs.eu/" },
-  "gas": { display: "www.laugfsgas.lk", url: "https://www.laugfsgas.lk" },
-  "holdings": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  "international": { display: "www.laugfsinternational.lk", url: "https://www.laugfsinternational.lk" },
-  "leisure": { display: "www.laugfs.lk/hospitality", url: "https://www.laugfs.lk/hospitality" },
+  gas: { display: "www.laugfsgas.lk", url: "https://www.laugfsgas.lk" },
+  holdings: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
+  international: { display: "www.laugfsinternational.lk", url: "https://www.laugfsinternational.lk" },
+  leisure: { display: "www.laugfs.lk/hospitality", url: "https://www.laugfs.lk/hospitality" },
   "life-sciences": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  "lubricants": { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com" },
+  lubricants: { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com" },
   "lubricants-bangladesh": { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com/" },
-  "maritime": { display: "www.laugfsmaritime.com", url: "https://www.laugfsmaritime.com/" },
-  "petroleum": { display: "laugfspetroleum.lk", url: "http://laugfspetroleum.lk" },
-  "power": { display: "laugfspower.lk", url: "https://laugfspower.lk" },
-  "property": { display: "www.laugfs.lk", url: "https://www.laugfs.lk/" },
-  "restaurants": { display: "www.jade.lk", url: "https://www.jade.lk" },
-  "rubber": { display: "www.laugfsrubber.com", url: "https://www.laugfsrubber.com" },
+  maritime: { display: "www.laugfsmaritime.com", url: "https://www.laugfsmaritime.com/" },
+  petroleum: { display: "laugfspetroleum.lk", url: "http://laugfspetroleum.lk" },
+  power: { display: "laugfspower.lk", url: "https://laugfspower.lk" },
+  property: { display: "www.laugfs.lk", url: "https://www.laugfs.lk/" },
+  restaurants: { display: "www.jade.lk", url: "https://www.jade.lk" },
+  rubber: { display: "www.laugfsrubber.com", url: "https://www.laugfsrubber.com" },
   "salt-chemicals": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  "slogal": { display: "www.slogal.com", url: "https://www.slogal.com/" },
-  "southern-petroleum": { display: "laugfspetroleum.lk/southern-petroleum.php", url: "http://laugfspetroleum.lk/southern-petroleum.php" },
-  "super": { display: "laugfsholdings.com/super/", url: "https://laugfsholdings.com/super/" },
-  "terminals": { display: "www.laugfs.lk/logistics", url: "https://www.laugfs.lk/logistics" },
+  slogal: { display: "www.slogal.com", url: "https://www.slogal.com/" },
+  "southern-petroleum": {
+    display: "laugfspetroleum.lk/southern-petroleum.php",
+    url: "http://laugfspetroleum.lk/southern-petroleum.php",
+  },
+  super: { display: "laugfsholdings.com/super/", url: "https://laugfsholdings.com/super/" },
+  terminals: { display: "www.laugfs.lk/logistics", url: "https://www.laugfs.lk/logistics" },
   "usa-llc": { display: "www.laugfsusa.com", url: "https://laugfsusa.com/" },
-  "custom": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
+  custom: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
 }
 
 const companyLogos = [
   { id: "anantaya-chilaw", name: "Anantaya Resort and Spa Chilaw", path: "/images/Anantaya Resort and Spa Chilaw.png" },
-  { id: "anantaya-passikudah", name: "Anantaya Resort and Spa Passikuda", path: "/images/Anantaya Resort and Spa Passikuda.png" },
+  {
+    id: "anantaya-passikudah",
+    name: "Anantaya Resort and Spa Passikuda",
+    path: "/images/Anantaya Resort and Spa Passikuda.png",
+  },
   { id: "business-solutions", name: "LAUGFS Business Solutions", path: "/images/LAUGFS Business Solutions.png" },
   { id: "eco-sri", name: "LAUGFS Eco Sri", path: "/images/LAUGFS Eco Sri.png" },
   { id: "engineering", name: "LAUGFS Engineering", path: "/images/LAUGFS Engineering.png" },
@@ -571,25 +577,25 @@ export default function HomePage() {
 
   // Convert company logos to base64 on component mount
   useEffect(() => {
-    const resizeImage = (base64: string, targetHeight: number = 48): Promise<string> => {
+    const resizeImage = (base64: string, targetHeight = 48): Promise<string> => {
       return new Promise((resolve) => {
         const img = new Image()
         img.onload = () => {
-          const canvas = document.createElement('canvas')
-          const ctx = canvas.getContext('2d')
-          
+          const canvas = document.createElement("canvas")
+          const ctx = canvas.getContext("2d")
+
           // Calculate new width maintaining aspect ratio
           const aspectRatio = img.width / img.height
           const newWidth = Math.round(targetHeight * aspectRatio)
-          
+
           canvas.width = newWidth
           canvas.height = targetHeight
-          
+
           // Draw resized image
           ctx?.drawImage(img, 0, 0, newWidth, targetHeight)
-          
+
           // Convert to base64
-          const resizedBase64 = canvas.toDataURL('image/png', 0.8)
+          const resizedBase64 = canvas.toDataURL("image/png", 0.8)
           resolve(resizedBase64)
         }
         img.src = base64
@@ -637,25 +643,25 @@ export default function HomePage() {
     }
   }, [signatureData.extension])
 
-  const resizeImage = (base64: string, targetHeight: number = 48): Promise<string> => {
+  const resizeImage = (base64: string, targetHeight = 48): Promise<string> => {
     return new Promise((resolve) => {
       const img = new Image()
       img.onload = () => {
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')
-        
+        const canvas = document.createElement("canvas")
+        const ctx = canvas.getContext("2d")
+
         // Calculate new width maintaining aspect ratio
         const aspectRatio = img.width / img.height
         const newWidth = Math.round(targetHeight * aspectRatio)
-        
+
         canvas.width = newWidth
         canvas.height = targetHeight
-        
+
         // Draw resized image
         ctx?.drawImage(img, 0, 0, newWidth, targetHeight)
-        
+
         // Convert to base64
-        const resizedBase64 = canvas.toDataURL('image/png', 0.8)
+        const resizedBase64 = canvas.toDataURL("image/png", 0.8)
         resolve(resizedBase64)
       }
       img.src = base64
@@ -744,11 +750,11 @@ export default function HomePage() {
     const fullName = getFullName()
 
     // Calculate dynamic column widths
-    const calculateTextWidth = (text: string, isBold: boolean = false) => {
-      const canvas = document.createElement('canvas')
-      const ctx = canvas.getContext('2d')
+    const calculateTextWidth = (text: string, isBold = false) => {
+      const canvas = document.createElement("canvas")
+      const ctx = canvas.getContext("2d")
       if (ctx) {
-        ctx.font = isBold ? 'bold 10px Calibri, sans-serif' : '10px Calibri, sans-serif'
+        ctx.font = isBold ? "bold 10px Calibri, sans-serif" : "10px Calibri, sans-serif"
         return ctx.measureText(text).width
       }
       return 0
@@ -768,7 +774,7 @@ export default function HomePage() {
     }
 
     const logoWidth = await getLogoWidth()
-    
+
     // Calculate name column width with proper bold text measurement
     const nameWidth = calculateTextWidth(fullName, true) // Bold text
     const designationWidth = calculateTextWidth(signatureData.designation, false)
@@ -912,7 +918,7 @@ export default function HomePage() {
                         <li>Select "View all Outlook settings" at the bottom</li>
                         <li>Go to "Mail" → "Compose and reply"</li>
                         <li>Scroll down to "Email signature" section</li>
-                        <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature box</li>
+                        <li>Click "Copy to Clipboard" button below and paste (Ctrl+V) in the signature box</li>
                         <li>Click "Save" to apply your signature</li>
                       </ol>
                     </div>
@@ -926,7 +932,7 @@ export default function HomePage() {
                         <li>Click "Signatures..." button</li>
                         <li>Click "New" to create a new signature</li>
                         <li>Give your signature a name</li>
-                        <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature editor</li>
+                        <li>Click "Copy to Clipboard" button below and paste (Ctrl+V) in the signature editor</li>
                         <li>Set as default for new messages and replies</li>
                         <li>Click "OK" to save</li>
                       </ol>
@@ -936,7 +942,7 @@ export default function HomePage() {
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <h5 className="font-medium text-blue-900 mb-2">💡 Pro Tips:</h5>
                     <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
-                      <li>Use "Copy Rich Text" for best results - images and formatting are preserved</li>
+                      <li>Use "Copy to Clipboard" for best results - images and formatting are preserved</li>
                       <li>Test your signature by sending yourself an email</li>
                       <li>The signature will appear automatically in all new emails</li>
                     </ul>
@@ -1115,7 +1121,7 @@ export default function HomePage() {
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Reset
                 </Button>
-                <RichTextCopy htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
+                <RichTextCopyTinyMCE className="flex-1" disabled={!isFormValid()} />
               </div>
             </CardContent>
           </Card>
@@ -1128,13 +1134,7 @@ export default function HomePage() {
             <CardDescription>This is how your signature will appear in emails</CardDescription>
           </CardHeader>
           <CardContent>
-            <SignaturePreview
-              data={{
-                ...signatureData,
-                fullName: getFullName(),
-                logoBase64: currentLogoBase64,
-              }}
-            />
+            <TinyMCEPreview htmlContent={generatedHTML} />
           </CardContent>
         </Card>
       </div>
