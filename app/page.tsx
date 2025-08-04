@@ -631,6 +631,7 @@ export default function HomePage() {
       setCurrentLogoBase64(logo)
       const html = await generateSignatureHTML()
       setGeneratedHTML(html)
+      console.log("Generated HTML:", html) // Debug log
     }
     updateSignature()
   }, [signatureData, logoBase64Cache])
@@ -762,12 +763,18 @@ export default function HomePage() {
 
     // Calculate logo width (assuming 48px height)
     const getLogoWidth = async () => {
+      if (!logoSrc) {
+        return 200 // Default width if no logo
+      }
       return new Promise<number>((resolve) => {
         const img = new Image()
         img.onload = () => {
           const aspectRatio = img.width / img.height
           const logoWidth = Math.round(48 * aspectRatio)
           resolve(logoWidth)
+        }
+        img.onerror = () => {
+          resolve(200) // Default width on error
         }
         img.src = logoSrc
       })
