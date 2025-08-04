@@ -1127,7 +1127,7 @@ export default function HomePage() {
                   <RefreshCw className="h-4 w-4 mr-2" />
                   Reset
                 </Button>
-                <RichTextCopyTinyMCE className="flex-1" disabled={!isFormValid()} />
+                <RichTextCopyTinyMCE className="flex-1" disabled={!isFormValid()} htmlContent={generatedHTML} />
               </div>
             </CardContent>
           </Card>

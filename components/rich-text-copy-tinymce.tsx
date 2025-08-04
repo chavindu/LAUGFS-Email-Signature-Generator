@@ -9,32 +9,24 @@ import { CopySuccessToast } from "@/components/copy-success-toast"
 interface RichTextCopyTinyMCEProps {
   className?: string
   disabled?: boolean
+  htmlContent?: string
 }
 
-declare global {
-  interface Window {
-    tinymce: any
-  }
-}
-
-const RichTextCopyTinyMCE: React.FC<RichTextCopyTinyMCEProps> = ({ className, disabled = false }) => {
+const RichTextCopyTinyMCE: React.FC<RichTextCopyTinyMCEProps> = ({ 
+  className, 
+  disabled = false, 
+  htmlContent = "" 
+}) => {
   const [copyRichSuccess, setCopyRichSuccess] = useState(false)
 
   const copyRichText = async () => {
     if (disabled) return
 
     try {
-      // Get content from TinyMCE editor
-      let htmlContent = ""
-      if (typeof window !== "undefined" && window.tinymce) {
-        const editor = window.tinymce.get("tinymce-preview")
-        if (editor) {
-          htmlContent = editor.getContent()
-        }
-      }
+      console.log("Copying HTML content, length:", htmlContent?.length || 0)
 
       if (!htmlContent) {
-        console.error("No content found in TinyMCE editor")
+        console.error("No HTML content provided to copy")
         return
       }
 

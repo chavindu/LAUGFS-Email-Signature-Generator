@@ -20,12 +20,21 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js" strategy="beforeInteractive" />
+        <Script 
+          src="https://unpkg.com/tinymce@6.8.3/tinymce.min.js" 
+          strategy="beforeInteractive"
+        />
       </head>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+      <body className={inter.className} suppressHydrationWarning>
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="light" 
+          enableSystem={false}
+          disableTransitionOnChange
+          storageKey="email-signature-theme"
+        >
           {children}
           <Toaster />
         </ThemeProvider>
