@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Combobox } from "@/components/ui/combobox"
-import { Mail, RefreshCw, Monitor, Globe, Shield } from "lucide-react"
+import { Mail, RefreshCw, Monitor, Globe, Shield, Download } from "lucide-react"
 import { useState, useEffect } from "react"
 import { SignaturePreview } from "@/components/signature-preview"
 import { RichTextCopy } from "@/components/rich-text-copy"
@@ -1116,6 +1116,27 @@ export default function HomePage() {
                   Reset
                 </Button>
                 <RichTextCopy htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
+                <Button 
+                  onClick={() => {
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5)
+                    const filename = `${signatureData.firstName} ${signatureData.lastName} - ${timestamp}.html`
+                    const blob = new Blob([generatedHTML], { type: 'text/html' })
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = filename
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                    URL.revokeObjectURL(url)
+                  }}
+                  variant="outline" 
+                  className="flex-1 bg-transparent"
+                  disabled={!isFormValid()}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download HTML
+                </Button>
               </div>
             </CardContent>
           </Card>
