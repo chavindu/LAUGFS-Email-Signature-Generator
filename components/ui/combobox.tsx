@@ -41,11 +41,12 @@ export function Combobox({
 
   const handleCustomSubmit = () => {
     if (searchValue.trim()) {
-      // Capitalize each word in the custom value
+      // Capitalize each word in the custom value, handling all cases
       const capitalizedValue = searchValue
         .trim()
+        .toLowerCase() // First convert everything to lowercase
         .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ")
 
       onValueChange(capitalizedValue)
@@ -128,7 +129,20 @@ export function Combobox({
               ))
             ) : (
               <div className="p-4 text-sm text-gray-500 text-center">
-                Type your custom option above and press Enter or click "Add"
+                {searchValue.trim() ? (
+                  <>
+                    Will add: "
+                    {searchValue
+                      .trim()
+                      .toLowerCase()
+                      .split(" ")
+                      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(" ")}
+                    "
+                  </>
+                ) : (
+                  'Type your custom option above and press Enter or click "Add"'
+                )}
               </div>
             )}
           </div>
