@@ -95,9 +95,9 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               style={{
                 width: logoWidth ? `${logoWidth}px` : "auto",
                 borderRight: "1pt solid black",
-                borderTop: "none",
-                borderBottom: "none",
-                borderLeft: "none",
+                borderTop: "0",
+                borderBottom: "0",
+                borderLeft: "0",
                 padding: "0in 0.2in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -121,9 +121,9 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               style={{
                 width: nameWidth ? `${nameWidth}px` : "auto",
                 borderRight: "1pt solid black",
-                borderTop: "none",
-                borderBottom: "none",
-                borderLeft: "none",
+                borderTop: "0",
+                borderBottom: "0",
+                borderLeft: "0",
                 padding: "0in 0in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -163,10 +163,10 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
             <td
               style={{
                 width: "324.25pt",
-                borderTop: "none",
-                borderBottom: "none",
-                borderLeft: "none",
-                borderRight: "none",
+                borderTop: "0",
+                borderBottom: "0",
+                borderLeft: "0",
+                borderRight: "0",
                 padding: "0in 0in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -211,7 +211,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               style={{
                 width: "670.5pt",
                 background: "#FFC000",
-                border: "none",
+                border: "0",
                 padding: "0in 0in 0in 0.2in",
               }}
             >
