@@ -134,6 +134,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "12.0pt",
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
+                  fontSize: "11pt",
                 }}
               >
                 <strong>{data.fullName}</strong>
@@ -143,6 +144,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "4.0pt",
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
+                  fontSize: "10pt",
                 }}
               >
                 {data.designation}
@@ -152,6 +154,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "4.0pt",
                   marginBottom: "8.0pt",
                   lineHeight: "1.0",
+                  fontSize: "10pt",
                 }}
               >
                 {data.department}
@@ -173,6 +176,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "12.0pt",
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
+                  fontSize: "10pt",
                 }}
               >
                 {data.address}
@@ -182,6 +186,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "4.0pt",
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
+                  fontSize: "10pt",
                 }}
               >
                 Mobile: {data.mobile} | Tel: +94 11 55 66 222
@@ -192,6 +197,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                     marginTop: "4.0pt",
                     marginBottom: "8.0pt",
                     lineHeight: "1.0",
+                    fontSize: "10pt",
                   }}
                 >
                   Direct: {data.direct} | Ext: {data.extension}
@@ -213,6 +219,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                 style={{
                   margin: "0",
                   lineHeight: "115%",
+                  fontSize: "10pt",
                 }}
               >
                 <span style={{ color: "#467886" }}>

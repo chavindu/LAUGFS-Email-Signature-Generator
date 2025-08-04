@@ -782,19 +782,19 @@ export default function HomePage() {
                 <p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:115%;font-size:10px;font-family:Calibri,sans-serif;"><img src="${logoSrc}" alt="Company Logo" style="display:block;height:48px;width:auto;object-fit:contain;"></p>
             </td>
             <td style="width:${maxTextWidth}px;border-right:1pt solid black;border-top:none;border-bottom:none;border-left:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;"><strong>${fullName}</strong></p>
-                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.designation}</p>
-                <p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.department}</p>
+                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:11pt;font-family:Calibri,sans-serif;"><strong>${fullName}</strong></p>
+                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">${signatureData.designation}</p>
+                <p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">${signatureData.department}</p>
             </td>
             <td style="width:324.25pt;border-top:none;border-bottom:none;border-left:none;border-right:none;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">${signatureData.address}</p>
-                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
-                ${showContactInfo ? `<p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10px;font-family:Calibri,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
+                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">${signatureData.address}</p>
+                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
+                ${showContactInfo ? `<p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
             </td>
         </tr>
         <tr>
             <td colspan="3" style="width:670.5pt;background:#FFC000;border:none;padding:0in 0in 0in 0.2in;">
-                <p style="margin:0;line-height:115%;font-size:10px;font-family:Calibri,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886;font-weight:bold;text-decoration:underline;">${domain.display}</a></span></p>
+                <p style="margin:0;line-height:115%;font-size:10pt;font-family:Calibri,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886;font-weight:bold;text-decoration:underline;">${domain.display}</a></span></p>
             </td>
         </tr>
     </tbody>
