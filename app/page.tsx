@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -9,9 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Combobox } from "@/components/ui/combobox"
 import { Mail, RefreshCw, Monitor, Globe, Shield, Download } from "lucide-react"
 import { useState, useEffect } from "react"
+import { SignaturePreview } from "@/components/signature-preview"
+import { RichTextCopy } from "@/components/rich-text-copy"
 import { ImageUpload } from "@/components/image-upload"
-import { RichTextCopyTinyMCE } from "@/components/rich-text-copy-tinymce"
-import { TinyMCEPreview } from "@/components/tinymce-preview"
 
 const companyDomains = {
   "anantaya-chilaw": { display: "www.anantaya.lk/chilaw/", url: "https://www.anantaya.lk/chilaw/" },
@@ -631,7 +632,6 @@ export default function HomePage() {
       setCurrentLogoBase64(logo)
       const html = await generateSignatureHTML()
       setGeneratedHTML(html)
-      console.log("Generated HTML:", html) // Debug log
     }
     updateSignature()
   }, [signatureData, logoBase64Cache])
@@ -763,18 +763,12 @@ export default function HomePage() {
 
     // Calculate logo width (assuming 48px height)
     const getLogoWidth = async () => {
-      if (!logoSrc) {
-        return 200 // Default width if no logo
-      }
       return new Promise<number>((resolve) => {
         const img = new Image()
         img.onload = () => {
           const aspectRatio = img.width / img.height
           const logoWidth = Math.round(48 * aspectRatio)
           resolve(logoWidth)
-        }
-        img.onerror = () => {
-          resolve(200) // Default width on error
         }
         img.src = logoSrc
       })
@@ -788,26 +782,35 @@ export default function HomePage() {
     const departmentWidth = calculateTextWidth(signatureData.department, false)
     const maxTextWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 60
 
-    return `<table style="border-collapse:collapse;width:670.5pt;margin-left:6.75pt;margin-right:6.75pt;border:0;">
+    return `<!--[if mso]>
+<style>
+table, td, tr {
+  border: none !important;
+  mso-table-lspace: 0pt !important;
+  mso-table-rspace: 0pt !important;
+}
+</style>
+<![endif]-->
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border:none; mso-table-lspace:0pt; mso-table-rspace:0pt; width:670.5pt; margin-left:6.75pt; margin-right:6.75pt;">
     <tbody>
         <tr>
-            <td style="width:${logoWidth}px;border-right:1pt solid black;border-top:0;border-bottom:0;border-left:0;padding:0in 0.2in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:8.0pt;line-height:115%;font-size:10pt;font-family:Calibri,sans-serif;"><img src="${logoSrc}" alt="Company Logo" style="display:block;height:48px;width:auto;object-fit:contain;"></p>
+            <td style="width:${logoWidth}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0in 0.2in 0in 0.2in; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin-top:12.0pt; margin-bottom:8.0pt; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif;"><img src="${logoSrc}" alt="Company Logo" style="display:block; height:48px; width:auto; object-fit:contain;"></p>
             </td>
-            <td style="width:${maxTextWidth}px;border-right:1pt solid black;border-top:0;border-bottom:0;border-left:0;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:11pt;font-family:Calibri,sans-serif;"><strong>${fullName}</strong></p>
-                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">${signatureData.designation}</p>
-                <p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">${signatureData.department}</p>
+            <td style="width:${maxTextWidth}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0in 0in 0in 0.2in; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif;"><strong>${fullName}</strong></p>
+                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">${signatureData.designation}</p>
+                <p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">${signatureData.department}</p>
             </td>
-            <td style="width:324.25pt;border-top:0;border-bottom:0;border-left:0;border-right:0;padding:0in 0in 0in 0.2in;vertical-align:top;">
-                <p style="margin-top:12.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">${signatureData.address}</p>
-                <p style="margin-top:4.0pt;margin-bottom:4.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
-                ${showContactInfo ? `<p style="margin-top:4.0pt;margin-bottom:8.0pt;line-height:1.0;font-size:10pt;font-family:Calibri,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
+            <td style="width:324.25pt; border:none; padding:0in 0in 0in 0.2in; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">${signatureData.address}</p>
+                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
+                ${showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
             </td>
         </tr>
         <tr>
-            <td colspan="3" style="width:670.5pt;background:#FFC000;border:0;padding:0in 0in 0in 0.2in;">
-                <p style="margin:0;line-height:115%;font-size:10pt;font-family:Calibri,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886;font-weight:bold;text-decoration:underline;">${domain.display}</a></span></p>
+            <td colspan="3" style="width:670.5pt; background:#FFC000; border:none; padding:0in 0in 0in 0.2in; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886; font-weight:bold; text-decoration:underline;">${domain.display}</a></span></p>
             </td>
         </tr>
     </tbody>
@@ -938,7 +941,7 @@ export default function HomePage() {
                         <li>Select "View all Outlook settings" at the bottom</li>
                         <li>Go to "Mail" → "Compose and reply"</li>
                         <li>Scroll down to "Email signature" section</li>
-                        <li>Click "Copy to Clipboard" button below and paste (Ctrl+V) in the signature box</li>
+                        <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature box</li>
                         <li>Click "Save" to apply your signature</li>
                       </ol>
                     </div>
@@ -952,7 +955,7 @@ export default function HomePage() {
                         <li>Click "Signatures..." button</li>
                         <li>Click "New" to create a new signature</li>
                         <li>Give your signature a name</li>
-                        <li>Click "Copy to Clipboard" button below and paste (Ctrl+V) in the signature editor</li>
+                        <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature editor</li>
                         <li>Set as default for new messages and replies</li>
                         <li>Click "OK" to save</li>
                       </ol>
@@ -962,7 +965,7 @@ export default function HomePage() {
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <h5 className="font-medium text-blue-900 mb-2">💡 Pro Tips:</h5>
                     <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
-                      <li>Use "Copy to Clipboard" for best results - images and formatting are preserved</li>
+                      <li>Use "Copy Rich Text" for best results - images and formatting are preserved</li>
                       <li>Test your signature by sending yourself an email</li>
                       <li>The signature will appear automatically in all new emails</li>
                     </ul>
@@ -1136,23 +1139,25 @@ export default function HomePage() {
                 )}
               </div>
 
-<div className="flex gap-2 pt-4">
-  <Button onClick={resetForm} variant="outline" className="flex-1 bg-transparent">
-    <RefreshCw className="h-4 w-4 mr-2" />
-    Reset
-  </Button>
-  <Button
-    onClick={handleDownloadHTML}
-    variant="outline"
-    className="flex-1 bg-transparent"
-    disabled={!isFormValid()}
-  >
-    <Download className="h-4 w-4 mr-2" />
-    Download HTML
-  </Button>
-  <RichTextCopy htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
-</div>
-
+              <div className="flex gap-2 pt-4">
+                <Button onClick={resetForm} variant="outline" className="flex-1 bg-transparent">
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Reset
+                </Button>
+                <Button
+                  onClick={handleDownloadHTML}
+                  variant="outline"
+                  className="flex-1 bg-transparent"
+                  disabled={!isFormValid()}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download HTML
+                </Button>
+                <RichTextCopy htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Preview */}
         <Card className="mt-6 max-w-7xl mx-auto">
@@ -1161,7 +1166,13 @@ export default function HomePage() {
             <CardDescription>This is how your signature will appear in emails</CardDescription>
           </CardHeader>
           <CardContent>
-            <TinyMCEPreview htmlContent={generatedHTML} />
+            <SignaturePreview
+              data={{
+                ...signatureData,
+                fullName: getFullName(),
+                logoBase64: currentLogoBase64,
+              }}
+            />
           </CardContent>
         </Card>
       </div>
