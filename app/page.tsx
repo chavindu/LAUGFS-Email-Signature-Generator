@@ -998,7 +998,8 @@ table, td, tr {
             </Card>
           </div>
 
-          {/* Form */}
+                  {/* Form */}
+        <div>
           <Card className="h-fit">
             <CardHeader className="bg-gradient-to-r from-[#FFC000]/10 to-blue-50">
               <CardTitle className="flex items-center gap-2 text-blue-900">
@@ -1145,22 +1146,24 @@ table, td, tr {
                 )}
               </div>
 
-<div className="flex gap-2 pt-4">
-  <Button onClick={resetForm} variant="outline" className="flex-1 bg-transparent">
-    <RefreshCw className="h-4 w-4 mr-2" />
-    Reset
-  </Button>
-  <Button
-    onClick={handleDownloadHTML}
-    variant="outline"
-    className="flex-1 bg-transparent"
-    disabled={!isFormValid()}
-  >
-    <Download className="h-4 w-4 mr-2" />
-    Download HTML
-  </Button>
-  <RichTextCopy htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
-</div>
+              <div className="flex gap-2 pt-4">
+                <Button onClick={resetForm} variant="outline" className="flex-1 bg-transparent">
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Reset
+                </Button>
+                <Button
+                  onClick={handleDownloadHTML}
+                  variant="outline"
+                  className="flex-1 bg-transparent"
+                  disabled={!isFormValid()}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download HTML
+                </Button>
+                <RichTextCopyTinyMCE htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
+              </div>
+            </CardContent>
+          </Card>
 
 
         {/* Preview */}
@@ -1173,6 +1176,9 @@ table, td, tr {
             <TinyMCEPreview htmlContent={generatedHTML} />
           </CardContent>
         </Card>
+          </div>
+      </div>
+
       </div>
 
       {/* Footer */}
