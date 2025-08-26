@@ -575,25 +575,27 @@ export default function HomePage() {
   const [logoBase64Cache, setLogoBase64Cache] = useState<Record<string, string>>({})
   const [generatedHTML, setGeneratedHTML] = useState("")
   const [currentLogoBase64, setCurrentLogoBase64] = useState("")
+  const [secondLogosBase64, setSecondLogosBase64] = useState<Record<string, string>>({})
+  const [currentSecondLogoBase64, setCurrentSecondLogoBase64] = useState("")
 
   // Convert company logos to base64 on component mount
   useEffect(() => {
-    const resizeImage = (base64: string, targetHeight = 48): Promise<string> => {
+    const resizeImage = (base64: string, targetWidth = 180): Promise<string> => {
       return new Promise((resolve) => {
         const img = new Image()
         img.onload = () => {
           const canvas = document.createElement("canvas")
           const ctx = canvas.getContext("2d")
 
-          // Calculate new width maintaining aspect ratio
-          const aspectRatio = img.width / img.height
-          const newWidth = Math.round(targetHeight * aspectRatio)
+          // Calculate new height maintaining aspect ratio
+          const aspectRatio = img.height ? img.width / img.height : 1
+          const newHeight = Math.round(targetWidth / aspectRatio)
 
-          canvas.width = newWidth
-          canvas.height = targetHeight
+          canvas.width = targetWidth
+          canvas.height = newHeight
 
           // Draw resized image
-          ctx?.drawImage(img, 0, 0, newWidth, targetHeight)
+          ctx?.drawImage(img, 0, 0, targetWidth, newHeight)
 
           // Convert to base64
           const resizedBase64 = canvas.toDataURL("image/png", 0.8)
@@ -612,7 +614,7 @@ export default function HomePage() {
             const reader = new FileReader()
             reader.onload = async () => {
               const originalBase64 = reader.result as string
-              const resizedBase64 = await resizeImage(originalBase64, 48)
+              const resizedBase64 = await resizeImage(originalBase64, 180)
               setLogoBase64Cache((prev) => ({ ...prev, [logo.id]: resizedBase64 }))
             }
             reader.readAsDataURL(blob)
@@ -623,6 +625,49 @@ export default function HomePage() {
       }
     }
     convertLogos()
+
+    // Preload second (anniversary) logos and cache as base64 at width 260px
+    const loadSecondLogos = async () => {
+      const resizeByHeight = (base64: string, targetHeight = 90): Promise<string> => {
+        return new Promise((resolve) => {
+          const img = new Image()
+          img.onload = () => {
+            const aspectRatio = img.width ? img.width / img.height : 1
+            const newWidth = Math.round(targetHeight * aspectRatio)
+            const canvas = document.createElement("canvas")
+            const ctx = canvas.getContext("2d")
+            canvas.width = newWidth
+            canvas.height = targetHeight
+            ctx?.drawImage(img, 0, 0, newWidth, targetHeight)
+            const resizedBase64 = canvas.toDataURL("image/png", 0.9)
+            resolve(resizedBase64)
+          }
+          img.src = base64
+        })
+      }
+
+      const paths: { key: string; path: string }[] = [
+        { key: "holdings", path: "/images/2nd-logo/30-years-holdings.png" },
+        { key: "others", path: "/images/2nd-logo/30-years-others.png" },
+      ]
+
+      for (const item of paths) {
+        try {
+          const response = await fetch(item.path)
+          const blob = await response.blob()
+          const reader = new FileReader()
+          reader.onload = async () => {
+            const b64 = reader.result as string
+            const resized = await resizeByHeight(b64, 90)
+            setSecondLogosBase64((prev) => ({ ...prev, [item.key]: resized }))
+          }
+          reader.readAsDataURL(blob)
+        } catch (error) {
+          console.error(`Failed to load second logo ${item.key}:`, error)
+        }
+      }
+    }
+    loadSecondLogos()
   }, [])
 
   // Update generated HTML and current logo when signature data changes
@@ -630,11 +675,28 @@ export default function HomePage() {
     const updateSignature = async () => {
       const logo = await getCurrentLogoBase64()
       setCurrentLogoBase64(logo)
+      const anniversary = await getSecondLogoBase64()
+      setCurrentSecondLogoBase64(anniversary)
       const html = await generateSignatureHTML()
       setGeneratedHTML(html)
     }
     updateSignature()
-  }, [signatureData, logoBase64Cache])
+  }, [signatureData, logoBase64Cache, secondLogosBase64])
+
+  // Also update when secondLogosBase64 changes to ensure 2nd logo appears
+  useEffect(() => {
+    if (Object.keys(secondLogosBase64).length > 0) {
+      const updateSignature = async () => {
+        const logo = await getCurrentLogoBase64()
+        setCurrentLogoBase64(logo)
+        const anniversary = await getSecondLogoBase64()
+        setCurrentSecondLogoBase64(anniversary)
+        const html = await generateSignatureHTML()
+        setGeneratedHTML(html)
+      }
+      updateSignature()
+    }
+  }, [secondLogosBase64])
 
   // Auto-generate direct line from extension with correct format
   useEffect(() => {
@@ -651,7 +713,7 @@ export default function HomePage() {
         const canvas = document.createElement("canvas")
         const ctx = canvas.getContext("2d")
 
-        // Calculate new width maintaining aspect ratio
+        // Calculate new width maintaining aspect ratio for height-based resizing
         const aspectRatio = img.width / img.height
         const newWidth = Math.round(targetHeight * aspectRatio)
 
@@ -672,11 +734,36 @@ export default function HomePage() {
   const getCurrentLogoBase64 = async () => {
     if (signatureData.selectedLogo === "custom") {
       if (signatureData.customLogoBase64) {
-        return await resizeImage(signatureData.customLogoBase64, 48)
+        // Custom main logo should be width 180px (height auto)
+        // Convert by width for consistency
+        const resizeByWidth = (base64: string, targetWidth = 180): Promise<string> => {
+          return new Promise((resolve) => {
+            const img = new Image()
+            img.onload = () => {
+              const aspectRatio = img.height ? img.width / img.height : 1
+              const newHeight = Math.round(targetWidth / aspectRatio)
+              const canvas = document.createElement("canvas")
+              const ctx = canvas.getContext("2d")
+              canvas.width = targetWidth
+              canvas.height = newHeight
+              ctx?.drawImage(img, 0, 0, targetWidth, newHeight)
+              resolve(canvas.toDataURL("image/png", 0.8))
+            }
+            img.src = base64
+          })
+        }
+        return await resizeByWidth(signatureData.customLogoBase64, 180)
       }
       return ""
     }
     return logoBase64Cache[signatureData.selectedLogo] || ""
+  }
+
+  const getSecondLogoBase64 = async () => {
+    // If selected company is holdings -> show holdings anniversary logo
+    // Otherwise show others. Hide if not loaded yet.
+    const key = signatureData.selectedLogo === "holdings" ? "holdings" : "others"
+    return secondLogosBase64[key] || ""
   }
 
   const formatMobileNumber = (value: string) => {
@@ -746,6 +833,7 @@ export default function HomePage() {
 
   const generateSignatureHTML = async () => {
     const logoSrc = await getCurrentLogoBase64()
+    const secondLogoSrc = await getSecondLogoBase64()
     const showContactInfo = signatureData.extension.length === 4
     const domain = getCurrentDomain()
     const fullName = getFullName()
@@ -761,26 +849,22 @@ export default function HomePage() {
       return 0
     }
 
-    // Calculate logo width (assuming 48px height)
-    const getLogoWidth = async () => {
-      return new Promise<number>((resolve) => {
-        const img = new Image()
-        img.onload = () => {
-          const aspectRatio = img.width / img.height
-          const logoWidth = Math.round(48 * aspectRatio)
-          resolve(logoWidth)
-        }
-        img.src = logoSrc
-      })
-    }
-
-    const logoWidth = await getLogoWidth()
+    // Main logo width fixed at 180px for table cell
+    const logoWidth = 180
 
     // Calculate name column width with proper bold text measurement
     const nameWidth = calculateTextWidth(fullName, true) // Bold text
     const designationWidth = calculateTextWidth(signatureData.designation, false)
     const departmentWidth = calculateTextWidth(signatureData.department, false)
-    const maxTextWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 60
+    const maxTextWidth = Math.max(nameWidth, designationWidth, departmentWidth)
+
+    // Calculate contact column width using the longest of address/mobile/direct
+    const addressWidth = calculateTextWidth(signatureData.address, false)
+    const mobileText = `Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222`
+    const mobileWidth = calculateTextWidth(mobileText, false)
+    const directText = `Direct: ${signatureData.direct} | Ext: ${signatureData.extension}`
+    const directWidth = showContactInfo ? calculateTextWidth(directText, false) : 0
+    const contactWidth = Math.max(addressWidth, mobileWidth, directWidth)
 
     return `<!--[if mso]>
 <style>
@@ -791,25 +875,28 @@ table, td, tr {
 }
 </style>
 <![endif]-->
-<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border:none; mso-table-lspace:0pt; mso-table-rspace:0pt; width:670.5pt; margin-left:6.75pt; margin-right:6.75pt;">
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border:none; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:894px; margin:0 auto;">
     <tbody>
         <tr>
-            <td style="width:${logoWidth}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0in 0.2in 0in 0.2in; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin-top:12.0pt; margin-bottom:8.0pt; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif;"><img src="${logoSrc}" alt="Company Logo" style="display:block; height:48px; width:auto; object-fit:contain;"></p>
+            <td style="width:180px; min-width:180px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 0px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin-top:12.0pt; margin-bottom:8.0pt; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:180px; height:auto; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
             </td>
-            <td style="width:${maxTextWidth}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0in 0in 0in 0.2in; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif;"><strong>${fullName}</strong></p>
-                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">${signatureData.designation}</p>
-                <p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">${signatureData.department}</p>
+            ${secondLogoSrc ? `<td style="width:260px; min-width:260px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin-top:12.0pt; margin-bottom:8.0pt; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:auto; height:90px; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
+            </td>` : ``}
+            <td style="width:auto; min-width:${maxTextWidth}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif; white-space:nowrap;"><strong>${fullName}</strong></p>
+                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.designation}</p>
+                <p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.department}</p>
             </td>
-            <td style="width:324.25pt; border:none; padding:0in 0in 0in 0.2in; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">${signatureData.address}</p>
-                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222</p>
-                ${showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif;">Direct: ${signatureData.direct} | Ext: ${signatureData.extension}</p>` : ""}
+            <td style="width:auto; min-width:${contactWidth}px; border:none; padding:0px 0px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.address}</p>
+                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${mobileText}</p>
+                ${showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${directText}</p>` : ""}
             </td>
         </tr>
         <tr>
-            <td colspan="3" style="width:670.5pt; background:#FFC000; border:none; padding:0in 0in 0in 0.2in; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            <td colspan="${secondLogoSrc ? 4 : 3}" style="width:100%; background:#FFC000; border:none; padding:0in 0in 0in 0.2in; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886; font-weight:bold; text-decoration:underline;">${domain.display}</a></span></p>
             </td>
         </tr>
@@ -1171,7 +1258,9 @@ table, td, tr {
                 ...signatureData,
                 fullName: getFullName(),
                 logoBase64: currentLogoBase64,
+                secondLogoBase64: currentSecondLogoBase64,
               }}
+              htmlContent={generatedHTML}
             />
           </CardContent>
         </Card>

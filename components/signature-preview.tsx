@@ -13,7 +13,9 @@ interface SignaturePreviewProps {
     address: string
     logoBase64: string
     selectedLogo: string
+    secondLogoBase64?: string
   }
+  htmlContent?: string
 }
 
 const companyDomains: { [key: string]: { display: string; url: string } } = {
@@ -32,24 +34,19 @@ const companyDomains: { [key: string]: { display: string; url: string } } = {
   custom: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
 }
 
-export function SignaturePreview({ data }: SignaturePreviewProps) {
-  const [logoWidth, setLogoWidth] = useState<number | undefined>(undefined)
+export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
+  // If full HTML is provided, render it directly to ensure perfect parity with exported/copied HTML
+  if (htmlContent) {
+    return (
+      <div className="border rounded-lg p-4 bg-white overflow-auto">
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+      </div>
+    )
+  }
   const [nameWidth, setNameWidth] = useState<number | undefined>(undefined)
-  const logoRef = useRef<HTMLImageElement>(null)
   const nameRef = useRef<HTMLParagraphElement>(null)
 
-  useEffect(() => {
-    if (logoRef.current) {
-      const handleLoad = () => {
-        setLogoWidth(logoRef.current?.naturalWidth ? (logoRef.current.naturalWidth * 48) / logoRef.current.naturalHeight : undefined)
-      }
-      const img = logoRef.current
-      img?.addEventListener('load', handleLoad)
-      // If already loaded
-      if (img?.complete) handleLoad()
-      return () => img?.removeEventListener('load', handleLoad)
-    }
-  }, [data.logoBase64])
+
 
   useEffect(() => {
     if (nameRef.current) {
@@ -66,8 +63,8 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
         const designationWidth = ctx.measureText(data.designation).width
         const departmentWidth = ctx.measureText(data.department).width
         
-        // Use the maximum width plus more padding for better fit
-        const maxWidth = Math.max(nameWidth, designationWidth, departmentWidth) + 60
+        // Use the maximum width only; padding will handle left/right spacing
+        const maxWidth = Math.max(nameWidth, designationWidth, departmentWidth)
         setNameWidth(maxWidth)
       }
     }
@@ -76,16 +73,29 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
   const showContactInfo = data.extension.length === 4
   const domain = companyDomains[data.selectedLogo] || companyDomains["holdings"]
 
+  // Compute contact column min width
+  const addressText = data.address
+  const mobileText = `Mobile: ${data.mobile} | Tel: +94 11 55 66 222`
+  const directText = `Direct: ${data.direct} | Ext: ${data.extension}`
+  const measure = (t: string) => {
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return 0
+    ctx.font = '10px Calibri, sans-serif'
+    return ctx.measureText(t).width
+  }
+  const contactMinWidth = Math.max(measure(addressText), measure(mobileText), showContactInfo ? measure(directText) : 0)
+
   return (
     <div className="border rounded-lg p-4 bg-white overflow-auto">
       <table
         style={{
           borderCollapse: "collapse",
-          width: "670.5pt",
+          width: "100%",
+          maxWidth: "894px",
           fontFamily: "Calibri, sans-serif",
           fontSize: "10px",
-          marginLeft: "6.75pt",
-          marginRight: "6.75pt",
+          margin: "0 auto",
           border: "none",
         }}
       >
@@ -93,12 +103,13 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
           <tr>
             <td
               style={{
-                width: logoWidth ? `${logoWidth}px` : "auto",
+                width: "180px",
+                minWidth: "180px",
                 borderRight: "1pt solid black",
                 borderTop: "0",
                 borderBottom: "0",
                 borderLeft: "0",
-                padding: "0in 0.2in 0in 0.2in",
+                padding: "0px 20px 0px 0px",
                 verticalAlign: "top",
               }}
             >
@@ -107,24 +118,54 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "12.0pt",
                   marginBottom: "8.0pt",
                   lineHeight: "115%",
+                  textAlign: "center",
                 }}
               >
                 <img
-                  ref={logoRef}
                   src={data.logoBase64 || "/images/holdings-logo.png"}
                   alt="Company Logo"
-                  style={{ display: "block", height: "48px", width: "auto", objectFit: "contain" }}
+                  style={{ display: "block", width: "180px", height: "auto", objectFit: "contain", marginLeft: "auto", marginRight: "auto" }}
                 />
               </p>
             </td>
+            {data.secondLogoBase64 && (
+              <td
+                style={{
+                  width: "260px",
+                  minWidth: "260px",
+                  borderRight: "1pt solid black",
+                  borderTop: "0",
+                  borderBottom: "0",
+                  borderLeft: "0",
+                  padding: "0px 20px 0px 20px",
+                  verticalAlign: "top",
+                }}
+              >
+                <p
+                  style={{
+                    marginTop: "12.0pt",
+                    marginBottom: "8.0pt",
+                    lineHeight: "115%",
+                    textAlign: "center",
+                  }}
+                >
+                  <img
+                    src={data.secondLogoBase64}
+                    alt="Anniversary Logo"
+                    style={{ display: "block", width: "auto", height: "90px", objectFit: "contain", marginLeft: "auto", marginRight: "auto" }}
+                  />
+                </p>
+              </td>
+            )}
             <td
               style={{
-                width: nameWidth ? `${nameWidth}px` : "auto",
+                width: "auto",
+                minWidth: nameWidth ? `${nameWidth}px` : "auto",
                 borderRight: "1pt solid black",
                 borderTop: "0",
                 borderBottom: "0",
                 borderLeft: "0",
-                padding: "0in 0in 0in 0.2in",
+                padding: "0px 20px 0px 20px",
                 verticalAlign: "top",
               }}
             >
@@ -135,6 +176,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
                   fontSize: "11pt",
+                  whiteSpace: "nowrap",
                 }}
               >
                 <strong>{data.fullName}</strong>
@@ -145,6 +187,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
                   fontSize: "10pt",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {data.designation}
@@ -155,6 +198,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginBottom: "8.0pt",
                   lineHeight: "1.0",
                   fontSize: "10pt",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {data.department}
@@ -162,12 +206,13 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
             </td>
             <td
               style={{
-                width: "324.25pt",
+                width: "auto",
+                minWidth: `${contactMinWidth}px`,
                 borderTop: "0",
                 borderBottom: "0",
                 borderLeft: "0",
                 borderRight: "0",
-                padding: "0in 0in 0in 0.2in",
+                padding: "0px 0px 0px 20px",
                 verticalAlign: "top",
               }}
             >
@@ -177,6 +222,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
                   fontSize: "10pt",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {data.address}
@@ -187,9 +233,10 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
                   fontSize: "10pt",
+                  whiteSpace: "nowrap",
                 }}
               >
-                Mobile: {data.mobile} | Tel: +94 11 55 66 222
+                {mobileText}
               </p>
               {showContactInfo && (
                 <p
@@ -198,18 +245,19 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                     marginBottom: "8.0pt",
                     lineHeight: "1.0",
                     fontSize: "10pt",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  Direct: {data.direct} | Ext: {data.extension}
+                  {directText}
                 </p>
               )}
             </td>
           </tr>
           <tr>
             <td
-              colSpan={3}
+              colSpan={data.secondLogoBase64 ? 4 : 3}
               style={{
-                width: "670.5pt",
+                width: "100%",
                 background: "#FFC000",
                 border: "0",
                 padding: "0in 0in 0in 0.2in",
