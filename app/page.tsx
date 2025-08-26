@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,9 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Combobox } from "@/components/ui/combobox"
 import { Mail, RefreshCw, Monitor, Globe, Shield, Download } from "lucide-react"
 import { useState, useEffect } from "react"
-import { SignaturePreview } from "@/components/signature-preview"
-import { RichTextCopy } from "@/components/rich-text-copy"
 import { ImageUpload } from "@/components/image-upload"
+import { RichTextCopyTinyMCE } from "@/components/rich-text-copy-tinymce"
+import { TinyMCEPreview } from "@/components/tinymce-preview"
 
 const companyDomains = {
   "anantaya-chilaw": { display: "www.anantaya.lk/chilaw/", url: "https://www.anantaya.lk/chilaw/" },
@@ -632,6 +631,7 @@ export default function HomePage() {
       setCurrentLogoBase64(logo)
       const html = await generateSignatureHTML()
       setGeneratedHTML(html)
+      console.log("Generated HTML:", html) // Debug log
     }
     updateSignature()
   }, [signatureData, logoBase64Cache])
@@ -763,12 +763,18 @@ export default function HomePage() {
 
     // Calculate logo width (assuming 48px height)
     const getLogoWidth = async () => {
+      if (!logoSrc) {
+        return 200 // Default width if no logo
+      }
       return new Promise<number>((resolve) => {
         const img = new Image()
         img.onload = () => {
           const aspectRatio = img.width / img.height
           const logoWidth = Math.round(48 * aspectRatio)
           resolve(logoWidth)
+        }
+        img.onerror = () => {
+          resolve(200) // Default width on error
         }
         img.src = logoSrc
       })
@@ -941,7 +947,7 @@ table, td, tr {
                         <li>Select "View all Outlook settings" at the bottom</li>
                         <li>Go to "Mail" → "Compose and reply"</li>
                         <li>Scroll down to "Email signature" section</li>
-                        <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature box</li>
+                        <li>Click "Copy to Clipboard" button below and paste (Ctrl+V) in the signature box</li>
                         <li>Click "Save" to apply your signature</li>
                       </ol>
                     </div>
@@ -955,7 +961,7 @@ table, td, tr {
                         <li>Click "Signatures..." button</li>
                         <li>Click "New" to create a new signature</li>
                         <li>Give your signature a name</li>
-                        <li>Click "Copy Rich Text" button below and paste (Ctrl+V) in the signature editor</li>
+                        <li>Click "Copy to Clipboard" button below and paste (Ctrl+V) in the signature editor</li>
                         <li>Set as default for new messages and replies</li>
                         <li>Click "OK" to save</li>
                       </ol>
@@ -965,7 +971,7 @@ table, td, tr {
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <h5 className="font-medium text-blue-900 mb-2">💡 Pro Tips:</h5>
                     <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
-                      <li>Use "Copy Rich Text" for best results - images and formatting are preserved</li>
+                      <li>Use "Copy to Clipboard" for best results - images and formatting are preserved</li>
                       <li>Test your signature by sending yourself an email</li>
                       <li>The signature will appear automatically in all new emails</li>
                     </ul>
@@ -1139,25 +1145,23 @@ table, td, tr {
                 )}
               </div>
 
-              <div className="flex gap-2 pt-4">
-                <Button onClick={resetForm} variant="outline" className="flex-1 bg-transparent">
-                  <RefreshCw className="h-4 w-4 mr-2" />
-                  Reset
-                </Button>
-                <Button
-                  onClick={handleDownloadHTML}
-                  variant="outline"
-                  className="flex-1 bg-transparent"
-                  disabled={!isFormValid()}
-                >
-                  <Download className="h-4 w-4 mr-2" />
-                  Download HTML
-                </Button>
-                <RichTextCopy htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+<div className="flex gap-2 pt-4">
+  <Button onClick={resetForm} variant="outline" className="flex-1 bg-transparent">
+    <RefreshCw className="h-4 w-4 mr-2" />
+    Reset
+  </Button>
+  <Button
+    onClick={handleDownloadHTML}
+    variant="outline"
+    className="flex-1 bg-transparent"
+    disabled={!isFormValid()}
+  >
+    <Download className="h-4 w-4 mr-2" />
+    Download HTML
+  </Button>
+  <RichTextCopy htmlContent={generatedHTML} className="flex-1" disabled={!isFormValid()} />
+</div>
+
 
         {/* Preview */}
         <Card className="mt-6 max-w-7xl mx-auto">
@@ -1166,13 +1170,7 @@ table, td, tr {
             <CardDescription>This is how your signature will appear in emails</CardDescription>
           </CardHeader>
           <CardContent>
-            <SignaturePreview
-              data={{
-                ...signatureData,
-                fullName: getFullName(),
-                logoBase64: currentLogoBase64,
-              }}
-            />
+            <TinyMCEPreview htmlContent={generatedHTML} />
           </CardContent>
         </Card>
       </div>
