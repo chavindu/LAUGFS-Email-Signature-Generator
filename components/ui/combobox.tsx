@@ -41,14 +41,7 @@ export function Combobox({
 
   const handleCustomSubmit = () => {
     if (searchValue.trim()) {
-      // Capitalize each word in the custom value
-      const capitalizedValue = searchValue
-        .trim()
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(" ")
-
-      onValueChange(capitalizedValue)
+      onValueChange(searchValue.trim())
       setOpen(false)
       setSearchValue("")
       setIsCustomMode(false)

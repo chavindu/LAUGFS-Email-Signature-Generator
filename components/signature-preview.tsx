@@ -95,9 +95,9 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               style={{
                 width: logoWidth ? `${logoWidth}px` : "auto",
                 borderRight: "1pt solid black",
-                borderTop: "none",
-                borderBottom: "none",
-                borderLeft: "none",
+                borderTop: "0",
+                borderBottom: "0",
+                borderLeft: "0",
                 padding: "0in 0.2in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -121,9 +121,9 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               style={{
                 width: nameWidth ? `${nameWidth}px` : "auto",
                 borderRight: "1pt solid black",
-                borderTop: "none",
-                borderBottom: "none",
-                borderLeft: "none",
+                borderTop: "0",
+                borderBottom: "0",
+                borderLeft: "0",
                 padding: "0in 0in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -134,6 +134,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "12.0pt",
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
+                  fontSize: "11pt",
                 }}
               >
                 <strong>{data.fullName}</strong>
@@ -143,6 +144,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "4.0pt",
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
+                  fontSize: "10pt",
                 }}
               >
                 {data.designation}
@@ -152,6 +154,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "4.0pt",
                   marginBottom: "8.0pt",
                   lineHeight: "1.0",
+                  fontSize: "10pt",
                 }}
               >
                 {data.department}
@@ -160,10 +163,10 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
             <td
               style={{
                 width: "324.25pt",
-                borderTop: "none",
-                borderBottom: "none",
-                borderLeft: "none",
-                borderRight: "none",
+                borderTop: "0",
+                borderBottom: "0",
+                borderLeft: "0",
+                borderRight: "0",
                 padding: "0in 0in 0in 0.2in",
                 verticalAlign: "top",
               }}
@@ -173,6 +176,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "12.0pt",
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
+                  fontSize: "10pt",
                 }}
               >
                 {data.address}
@@ -182,6 +186,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                   marginTop: "4.0pt",
                   marginBottom: "4.0pt",
                   lineHeight: "1.0",
+                  fontSize: "10pt",
                 }}
               >
                 Mobile: {data.mobile} | Tel: +94 11 55 66 222
@@ -192,6 +197,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                     marginTop: "4.0pt",
                     marginBottom: "8.0pt",
                     lineHeight: "1.0",
+                    fontSize: "10pt",
                   }}
                 >
                   Direct: {data.direct} | Ext: {data.extension}
@@ -205,7 +211,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
               style={{
                 width: "670.5pt",
                 background: "#FFC000",
-                border: "none",
+                border: "0",
                 padding: "0in 0in 0in 0.2in",
               }}
             >
@@ -213,6 +219,7 @@ export function SignaturePreview({ data }: SignaturePreviewProps) {
                 style={{
                   margin: "0",
                   lineHeight: "115%",
+                  fontSize: "10pt",
                 }}
               >
                 <span style={{ color: "#467886" }}>

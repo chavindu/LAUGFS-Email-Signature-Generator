@@ -19,7 +19,7 @@ const RichTextCopy: React.FC<RichTextCopyProps> = ({ htmlContent, className, dis
     if (disabled) return
 
     try {
-      // Create a temporary div with the signature HTML
+      // Create a temporary div with the complete signature HTML structure
       const tempDiv = document.createElement("div")
       tempDiv.innerHTML = htmlContent
       tempDiv.style.position = "absolute"
