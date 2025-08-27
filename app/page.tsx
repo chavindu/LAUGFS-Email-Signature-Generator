@@ -896,7 +896,7 @@ table, td, tr {
 }
 </style>
 <![endif]-->
-<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border:none; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:894px; margin:0 auto;">
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border:none; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:894px; margin:0;">
     <tbody>
         <tr>
             <!-- Main logo column -->
@@ -904,10 +904,10 @@ table, td, tr {
                 <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:180px; height:auto; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
             </td>
             <!-- Separator 1 (short, centered) -->
-            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto;">
+            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; color:inherit;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto; color:inherit;">
                 <tr>
-                  <td style="border-right:1pt solid #000; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
+                  <td style="border-right:1pt solid currentColor; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
                 </tr>
               </table>
             </td>
@@ -916,10 +916,10 @@ table, td, tr {
                 <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left; ${signatureData.selectedLogo === 'holdings' ? 'margin-bottom:10px;' : ''}"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:auto; height:90px; object-fit:contain; margin:0; padding:0;"></p>
             </td>
             <!-- Separator 2 (short, centered) -->
-            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto;">
+            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; color:inherit;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto; color:inherit;">
                 <tr>
-                  <td style="border-right:1pt solid #000; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
+                  <td style="border-right:1pt solid currentColor; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
                 </tr>
               </table>
             </td>` : ``}
@@ -930,10 +930,10 @@ table, td, tr {
                 <p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.department}</p>
             </td>
             <!-- Separator 3 (short, centered) -->
-            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto;">
+            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; color:inherit;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto; color:inherit;">
                 <tr>
-                  <td style="border-right:1pt solid #000; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
+                  <td style="border-right:1pt solid currentColor; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
                 </tr>
               </table>
             </td>
