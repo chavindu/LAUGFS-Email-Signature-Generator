@@ -899,17 +899,45 @@ table, td, tr {
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border:none; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:894px; margin:0 auto;">
     <tbody>
         <tr>
-            <td style="width:180px; min-width:180px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            <!-- Main logo column -->
+            <td style="width:180px; min-width:180px; border:none; padding:0px 20px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:180px; height:auto; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
             </td>
-            ${secondLogoSrc ? `<td style="width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; min-width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; max-width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            <!-- Separator 1 (short, centered) -->
+            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto;">
+                <tr>
+                  <td style="border-right:1pt solid #000; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
+                </tr>
+              </table>
+            </td>
+            <!-- 2nd logo column (conditional) -->
+            ${secondLogoSrc ? `<td style="width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; min-width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; max-width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; border:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left; ${signatureData.selectedLogo === 'holdings' ? 'margin-bottom:10px;' : ''}"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:auto; height:90px; object-fit:contain; margin:0; padding:0;"></p>
+            </td>
+            <!-- Separator 2 (short, centered) -->
+            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto;">
+                <tr>
+                  <td style="border-right:1pt solid #000; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
+                </tr>
+              </table>
             </td>` : ``}
-            <td style="width:auto; min-width:${maxTextWidth}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            <!-- Name column -->
+            <td style="width:auto; min-width:${maxTextWidth}px; border:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif; white-space:nowrap;"><strong>${fullName}</strong></p>
                 <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.designation}</p>
                 <p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.department}</p>
             </td>
+            <!-- Separator 3 (short, centered) -->
+            <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 auto;">
+                <tr>
+                  <td style="border-right:1pt solid #000; height:60px; line-height:60px; font-size:0;">&nbsp;</td>
+                </tr>
+              </table>
+            </td>
+            <!-- Contact column -->
             <td style="width:auto; min-width:${contactWidth}px; border:none; padding:0px 0px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.address}</p>
                 <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${mobileText}</p>
@@ -917,7 +945,7 @@ table, td, tr {
             </td>
         </tr>
         <tr>
-            <td colspan="${secondLogoSrc ? 4 : 3}" style="width:100%; background:#FFC000; border:none; padding:0in 0in 0in 0.2in; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            <td colspan="${secondLogoSrc ? 7 : 5}" style="width:100%; background:#FFC000; border:none; padding:0in 0in 0in 0.2in; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif;"><span style="color:#467886;"><a href="${domain.url}" target="_blank" style="color:#467886; font-weight:bold; text-decoration:underline;">${domain.display}</a></span></p>
             </td>
         </tr>
