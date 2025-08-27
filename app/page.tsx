@@ -899,11 +899,11 @@ table, td, tr {
 <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; border:none; mso-table-lspace:0pt; mso-table-rspace:0pt; width:100%; max-width:894px; margin:0 auto;">
     <tbody>
         <tr>
-            <td style="width:180px; min-width:180px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 0px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin-top:12.0pt; margin-bottom:8.0pt; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:180px; height:auto; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
+            <td style="width:180px; min-width:180px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:180px; height:auto; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
             </td>
-            ${secondLogoSrc ? `<td style="width:177px; min-width:177px; max-width:177px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left;"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:137px; height:90px; object-fit:contain; margin:0; padding:0;"></p>
+            ${secondLogoSrc ? `<td style="width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; min-width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; max-width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left; ${signatureData.selectedLogo === 'holdings' ? 'margin-bottom:10px;' : ''}"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:auto; height:90px; object-fit:contain; margin:0; padding:0;"></p>
             </td>` : ``}
             <td style="width:auto; min-width:${maxTextWidth}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif; white-space:nowrap;"><strong>${fullName}</strong></p>

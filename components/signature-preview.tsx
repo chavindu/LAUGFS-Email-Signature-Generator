@@ -112,13 +112,13 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                 borderBottom: "0",
                 borderLeft: "0",
                 padding: "0px 20px 0px 0px",
-                verticalAlign: "top",
+                verticalAlign: "middle",
               }}
             >
               <p
                 style={{
-                  marginTop: "12.0pt",
-                  marginBottom: "8.0pt",
+                  margin: "0",
+                  padding: "0",
                   lineHeight: "115%",
                   textAlign: "center",
                 }}
@@ -146,7 +146,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
               >
                 <p
                   style={{
-                    margin: "0",
+                    margin: data.selectedLogo === "holdings" ? "0 0 10px 0" : "0",
                     padding: "0",
                     lineHeight: "115%",
                     fontSize: "10pt",
@@ -156,7 +156,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                   <img
                     src={data.secondLogoBase64}
                     alt="Anniversary Logo"
-                    style={{ display: "block", width: "137px", height: "90px", objectFit: "contain", margin: "0", padding: "0" }}
+                    style={{ display: "block", width: "auto", height: "90px", objectFit: "contain", margin: "0", padding: "0" }}
                   />
                 </p>
               </td>
