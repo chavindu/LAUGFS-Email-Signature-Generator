@@ -577,7 +577,7 @@ export default function HomePage() {
   const [currentLogoBase64, setCurrentLogoBase64] = useState("")
   const [secondLogosBase64, setSecondLogosBase64] = useState<Record<string, string>>({})
   const [currentSecondLogoBase64, setCurrentSecondLogoBase64] = useState("")
-  const [secondLogoDimensions, setSecondLogoDimensions] = useState<{ width: number; height: number } | null>(null)
+  const [secondLogoDimensionsMap, setSecondLogoDimensionsMap] = useState<Record<string, { width: number; height: number }>>({})
 
   // Function to measure logo dimensions
   const measureLogoDimensions = (base64: string): Promise<{ width: number; height: number }> => {
@@ -675,12 +675,9 @@ export default function HomePage() {
             const b64 = reader.result as string
             const resized = await resizeByHeight(b64, 90)
             setSecondLogosBase64((prev) => ({ ...prev, [item.key]: resized }))
-            
-            // Measure the actual dimensions of the resized logo
-            if (item.key === "holdings") {
-              const dimensions = await measureLogoDimensions(resized)
-              setSecondLogoDimensions(dimensions)
-            }
+            // Measure the actual dimensions of the resized logo for this key
+            const dimensions = await measureLogoDimensions(resized)
+            setSecondLogoDimensionsMap((prev) => ({ ...prev, [item.key]: dimensions }))
           }
           reader.readAsDataURL(blob)
         } catch (error) {
@@ -855,6 +852,7 @@ export default function HomePage() {
   const generateSignatureHTML = async () => {
     const logoSrc = await getCurrentLogoBase64()
     const secondLogoSrc = await getSecondLogoBase64()
+    const secondLogoKey = signatureData.selectedLogo === "holdings" ? "holdings" : "others"
     const showContactInfo = signatureData.extension.length === 4
     const domain = getCurrentDomain()
     const fullName = getFullName()
@@ -900,7 +898,7 @@ table, td, tr {
     <tbody>
         <tr>
             <!-- Main logo column -->
-            <td style="width:180px; min-width:180px; border:none; padding:0px 20px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            <td style="width:180px; min-width:180px; border:none; padding:0px 15px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:180px; height:auto; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
             </td>
             <!-- Separator 1 (short, centered) -->
@@ -912,7 +910,7 @@ table, td, tr {
               </table>
             </td>
             <!-- 2nd logo column (conditional) -->
-            ${secondLogoSrc ? `<td style="width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; min-width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; max-width:${secondLogoDimensions ? secondLogoDimensions.width + 40 : 177}px; border:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            ${secondLogoSrc ? `<td style="width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; min-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; max-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; border:none; padding:0px 15px 0px 15px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left; ${signatureData.selectedLogo === 'holdings' ? 'margin-bottom:10px;' : ''}"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:auto; height:90px; object-fit:contain; margin:0; padding:0;"></p>
             </td>
             <!-- Separator 2 (short, centered) -->
@@ -924,7 +922,7 @@ table, td, tr {
               </table>
             </td>` : ``}
             <!-- Name column -->
-            <td style="width:auto; min-width:${maxTextWidth}px; border:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            <td style="width:auto; min-width:${maxTextWidth}px; border:none; padding:0px 15px 0px 15px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif; white-space:nowrap;"><strong>${fullName}</strong></p>
                 <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.designation}</p>
                 <p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.department}</p>
@@ -938,7 +936,7 @@ table, td, tr {
               </table>
             </td>
             <!-- Contact column -->
-            <td style="width:auto; min-width:${contactWidth}px; border:none; padding:0px 0px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            <td style="width:auto; min-width:${contactWidth}px; border:none; padding:0px 0px 0px 15px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.address}</p>
                 <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${mobileText}</p>
                 ${showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${directText}</p>` : ""}
