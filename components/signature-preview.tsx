@@ -43,10 +43,17 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
       </div>
     )
   }
-  const [nameWidth, setNameWidth] = useState<number | undefined>(undefined)
+  const [nameWidth, setNameWidth] = useState(0)
+  const [contactMinWidth, setContactMinWidth] = useState(0)
   const nameRef = useRef<HTMLParagraphElement>(null)
 
-
+  const showContactInfo = data.extension.length === 4
+  const domain = companyDomains[data.selectedLogo] || companyDomains["holdings"]
+  
+  // Define text variables for rendering
+  const addressText = data.address
+  const mobileText = `Mobile: ${data.mobile} | Tel: +94 11 55 66 222`
+  const directText = `Direct: ${data.direct} | Ext: ${data.extension}`
 
   useEffect(() => {
     if (nameRef.current) {
@@ -68,23 +75,18 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
         setNameWidth(maxWidth)
       }
     }
-  }, [data.fullName, data.designation, data.department])
 
-  const showContactInfo = data.extension.length === 4
-  const domain = companyDomains[data.selectedLogo] || companyDomains["holdings"]
-
-  // Compute contact column min width
-  const addressText = data.address
-  const mobileText = `Mobile: ${data.mobile} | Tel: +94 11 55 66 222`
-  const directText = `Direct: ${data.direct} | Ext: ${data.extension}`
-  const measure = (t: string) => {
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return 0
-    ctx.font = '10px Calibri, sans-serif'
-    return ctx.measureText(t).width
-  }
-  const contactMinWidth = Math.max(measure(addressText), measure(mobileText), showContactInfo ? measure(directText) : 0)
+    // Compute contact column min width
+    const measure = (t: string) => {
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return 0
+      ctx.font = '10px Calibri, sans-serif'
+      return ctx.measureText(t).width
+    }
+    const contactWidth = Math.max(measure(addressText), measure(mobileText), showContactInfo ? measure(directText) : 0)
+    setContactMinWidth(contactWidth)
+  }, [data.fullName, data.designation, data.department, addressText, mobileText, directText, showContactInfo])
 
   return (
     <div className="border rounded-lg p-4 bg-white overflow-auto">
@@ -122,7 +124,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                 }}
               >
                 <img
-                  src={data.logoBase64 || "/images/holdings-logo.png"}
+                  src={data.logoBase64 || "/images/LAUGFS Holdings.png"}
                   alt="Company Logo"
                   style={{ display: "block", width: "180px", height: "auto", objectFit: "contain", marginLeft: "auto", marginRight: "auto" }}
                 />
@@ -131,8 +133,9 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
             {data.secondLogoBase64 && (
               <td
                 style={{
-                  width: "260px",
-                  minWidth: "260px",
+                  width: "177px",
+                  minWidth: "177px",
+                  maxWidth: "177px",
                   borderRight: "1pt solid black",
                   borderTop: "0",
                   borderBottom: "0",
@@ -143,16 +146,17 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
               >
                 <p
                   style={{
-                    marginTop: "12.0pt",
-                    marginBottom: "8.0pt",
+                    margin: "0",
+                    padding: "0",
                     lineHeight: "115%",
-                    textAlign: "center",
+                    fontSize: "10pt",
+                    textAlign: "left",
                   }}
                 >
                   <img
                     src={data.secondLogoBase64}
                     alt="Anniversary Logo"
-                    style={{ display: "block", width: "auto", height: "90px", objectFit: "contain", marginLeft: "auto", marginRight: "auto" }}
+                    style={{ display: "block", width: "137px", height: "90px", objectFit: "contain", margin: "0", padding: "0" }}
                   />
                 </p>
               </td>
@@ -225,7 +229,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                   whiteSpace: "nowrap",
                 }}
               >
-                {data.address}
+                {addressText}
               </p>
               <p
                 style={{

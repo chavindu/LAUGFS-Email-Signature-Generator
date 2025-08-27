@@ -577,6 +577,21 @@ export default function HomePage() {
   const [currentLogoBase64, setCurrentLogoBase64] = useState("")
   const [secondLogosBase64, setSecondLogosBase64] = useState<Record<string, string>>({})
   const [currentSecondLogoBase64, setCurrentSecondLogoBase64] = useState("")
+  const [secondLogoDimensions, setSecondLogoDimensions] = useState<{ width: number; height: number } | null>(null)
+
+  // Function to measure logo dimensions
+  const measureLogoDimensions = (base64: string): Promise<{ width: number; height: number }> => {
+    return new Promise((resolve) => {
+      const img = new Image()
+      img.onload = () => {
+        // Calculate proportional width when height is fixed at 90px
+        const aspectRatio = img.width / img.height
+        const newWidth = Math.round(90 * aspectRatio)
+        resolve({ width: newWidth, height: 90 })
+      }
+      img.src = base64
+    })
+  }
 
   // Convert company logos to base64 on component mount
   useEffect(() => {
@@ -660,6 +675,12 @@ export default function HomePage() {
             const b64 = reader.result as string
             const resized = await resizeByHeight(b64, 90)
             setSecondLogosBase64((prev) => ({ ...prev, [item.key]: resized }))
+            
+            // Measure the actual dimensions of the resized logo
+            if (item.key === "holdings") {
+              const dimensions = await measureLogoDimensions(resized)
+              setSecondLogoDimensions(dimensions)
+            }
           }
           reader.readAsDataURL(blob)
         } catch (error) {
@@ -881,8 +902,8 @@ table, td, tr {
             <td style="width:180px; min-width:180px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 0px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin-top:12.0pt; margin-bottom:8.0pt; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:180px; height:auto; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
             </td>
-            ${secondLogoSrc ? `<td style="width:260px; min-width:260px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin-top:12.0pt; margin-bottom:8.0pt; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:auto; height:90px; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
+            ${secondLogoSrc ? `<td style="width:177px; min-width:177px; max-width:177px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left;"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:137px; height:90px; object-fit:contain; margin:0; padding:0;"></p>
             </td>` : ``}
             <td style="width:auto; min-width:${maxTextWidth}px; border-right:1pt solid black; border-top:none; border-bottom:none; border-left:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif; white-space:nowrap;"><strong>${fullName}</strong></p>
