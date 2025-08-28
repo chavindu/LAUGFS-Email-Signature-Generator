@@ -558,31 +558,32 @@ const departments = [
 export default function HomePage() {
   // Company logo configuration - easily change individual logo dimensions
   const COMPANY_LOGO_CONFIG = {
-    holdings: { width: 180, height: "auto" },
+    "anantaya-chilaw": { width: 144, height: 90 },
+    "anantaya-passikudah": { width: 144, height: 90 },
+    "business-solutions": { width: 180, height: "auto" },
+    "eco-sri": { width: 180, height: "auto" },
+    engineering: { width: 180, height: "auto" },
+    "europe-bv": { width: 180, height: "auto" },
     gas: { width: 180, height: "auto" },
+    holdings: { width: 180, height: "auto" },
+    international: { width: 180, height: "auto" },
+    leisure: { width: 180, height: "auto" },
+    "life-sciences": { width: 180, height: "auto" },
+    lubricants: { width: 180, height: "auto" },
+    "lubricants-bangladesh": { width: 180, height: "auto" },
+    maritime: { width: 180, height: "auto" },
     petroleum: { width: 180, height: "auto" },
     power: { width: 180, height: "auto" },
-    terminals: { width: 180, height: "auto" },
-    engineering: { width: 180, height: "auto" },
     property: { width: 180, height: "auto" },
-    leisure: { width: 180, height: "auto" },
-    lifeSciences: { width: 180, height: "auto" },
-    lubricants: { width: 180, height: "auto" },
-    saltAndChemicals: { width: 180, height: "auto" },
-    super: { width: 180, height: "auto" },
     restaurants: { width: 180, height: "auto" },
     rubber: { width: 180, height: "auto" },
-    maritime: { width: 180, height: "auto" },
-    international: { width: 180, height: "auto" },
-    europe: { width: 180, height: "auto" },
-    usa: { width: 180, height: "auto" },
-    ecoSri: { width: 180, height: "auto" },
-    businessSolutions: { width: 180, height: "auto" },
-    anantayaChilaw: { width: 180, height: "auto" },
-    anantayaPassikuda: { width: 180, height: "auto" },
+    "salt-chemicals": { width: 180, height: "auto" },
     slogal: { width: 180, height: "auto" },
-    southernPetroleum: { width: 180, height: "auto" },
-    custom: { width: 180, height: "auto" }
+    "southern-petroleum": { width: 180, height: "auto" },
+    super: { width: 180, height: "auto" },
+    terminals: { width: 180, height: "auto" },
+    "usa-llc": { width: 180, height: "auto" },
+    custom: { width: 180, height: "auto" },
   }
 
   const [signatureData, setSignatureData] = useState({
@@ -945,7 +946,7 @@ table, td, tr {
             </td>
             <!-- 2nd logo column (conditional) -->
             ${secondLogoSrc ? `<td style="width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; min-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; max-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; border:none; padding:0px 15px 0px 15px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left; ${signatureData.selectedLogo === 'holdings' ? 'margin-bottom:10px;' : ''}"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:auto; height:90px; object-fit:contain; margin:0; padding:0;"></p>
+                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left; margin-bottom:10px;"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 'px' : 'auto'}; height:90px; object-fit:contain; margin:0; padding:0;"></p>
             </td>
             <!-- Separator 2 (short, centered) -->
             <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; color:inherit;">

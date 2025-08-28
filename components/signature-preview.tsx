@@ -37,31 +37,32 @@ const companyDomains: { [key: string]: { display: string; url: string } } = {
 export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
   // Company logo configuration - matches main page
   const COMPANY_LOGO_CONFIG = {
-    holdings: { width: 180, height: "auto" },
+    "anantaya-chilaw": { width: 144, height: 90 },
+    "anantaya-passikudah": { width: 144, height: 90 },
+    "business-solutions": { width: 180, height: "auto" },
+    "eco-sri": { width: 180, height: "auto" },
+    engineering: { width: 180, height: "auto" },
+    "europe-bv": { width: 180, height: "auto" },
     gas: { width: 180, height: "auto" },
+    holdings: { width: 180, height: "auto" },
+    international: { width: 180, height: "auto" },
+    leisure: { width: 180, height: "auto" },
+    "life-sciences": { width: 180, height: "auto" },
+    lubricants: { width: 180, height: "auto" },
+    "lubricants-bangladesh": { width: 180, height: "auto" },
+    maritime: { width: 180, height: "auto" },
     petroleum: { width: 180, height: "auto" },
     power: { width: 180, height: "auto" },
-    terminals: { width: 180, height: "auto" },
-    engineering: { width: 180, height: "auto" },
     property: { width: 180, height: "auto" },
-    leisure: { width: 180, height: "auto" },
-    lifeSciences: { width: 180, height: "auto" },
-    lubricants: { width: 180, height: "auto" },
-    saltAndChemicals: { width: 180, height: "auto" },
-    super: { width: 180, height: "auto" },
     restaurants: { width: 180, height: "auto" },
     rubber: { width: 180, height: "auto" },
-    maritime: { width: 180, height: "auto" },
-    international: { width: 180, height: "auto" },
-    europe: { width: 180, height: "auto" },
-    usa: { width: 180, height: "auto" },
-    ecoSri: { width: 180, height: "auto" },
-    businessSolutions: { width: 180, height: "auto" },
-    anantayaChilaw: { width: 180, height: "auto" },
-    anantayaPassikuda: { width: 180, height: "auto" },
+    "salt-chemicals": { width: 180, height: "auto" },
     slogal: { width: 180, height: "auto" },
-    southernPetroleum: { width: 180, height: "auto" },
-    custom: { width: 180, height: "auto" }
+    "southern-petroleum": { width: 180, height: "auto" },
+    super: { width: 180, height: "auto" },
+    terminals: { width: 180, height: "auto" },
+    "usa-llc": { width: 180, height: "auto" },
+    custom: { width: 180, height: "auto" },
   }
 
   // If full HTML is provided, render it directly to ensure perfect parity with exported/copied HTML
@@ -179,7 +180,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
               >
                 <p
                   style={{
-                    margin: data.selectedLogo === "holdings" ? "0 0 10px 0" : "0",
+                    margin: "0 0 10px 0",
                     padding: "0",
                     lineHeight: "115%",
                     fontSize: "10pt",
