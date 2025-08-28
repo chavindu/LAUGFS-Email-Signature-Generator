@@ -35,6 +35,35 @@ const companyDomains: { [key: string]: { display: string; url: string } } = {
 }
 
 export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
+  // Company logo configuration - matches main page
+  const COMPANY_LOGO_CONFIG = {
+    holdings: { width: 180, height: "auto" },
+    gas: { width: 180, height: "auto" },
+    petroleum: { width: 180, height: "auto" },
+    power: { width: 180, height: "auto" },
+    terminals: { width: 180, height: "auto" },
+    engineering: { width: 180, height: "auto" },
+    property: { width: 180, height: "auto" },
+    leisure: { width: 180, height: "auto" },
+    lifeSciences: { width: 180, height: "auto" },
+    lubricants: { width: 180, height: "auto" },
+    saltAndChemicals: { width: 180, height: "auto" },
+    super: { width: 180, height: "auto" },
+    restaurants: { width: 180, height: "auto" },
+    rubber: { width: 180, height: "auto" },
+    maritime: { width: 180, height: "auto" },
+    international: { width: 180, height: "auto" },
+    europe: { width: 180, height: "auto" },
+    usa: { width: 180, height: "auto" },
+    ecoSri: { width: 180, height: "auto" },
+    businessSolutions: { width: 180, height: "auto" },
+    anantayaChilaw: { width: 180, height: "auto" },
+    anantayaPassikuda: { width: 180, height: "auto" },
+    slogal: { width: 180, height: "auto" },
+    southernPetroleum: { width: 180, height: "auto" },
+    custom: { width: 180, height: "auto" }
+  }
+
   // If full HTML is provided, render it directly to ensure perfect parity with exported/copied HTML
   if (htmlContent) {
     return (
@@ -50,9 +79,13 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
   const showContactInfo = data.extension.length === 4
   const domain = companyDomains[data.selectedLogo] || companyDomains["holdings"]
   
+  // Get current company logo configuration
+  const currentLogoConfig = COMPANY_LOGO_CONFIG[data.selectedLogo as keyof typeof COMPANY_LOGO_CONFIG] || COMPANY_LOGO_CONFIG.holdings
+  
   // Define text variables for rendering
   const addressText = data.address
-  const mobileText = `Mobile: ${data.mobile} | Tel: +94 11 55 66 222`
+  const mobileText = data.extension.length === 4 ? `Mobile: ${data.mobile} | Tel: +94 11 55 66 222` : `Mobile: ${data.mobile}`
+  const telText = data.extension.length === 4 ? "" : "Tel: +94 11 55 66 222"
   const directText = `Direct: ${data.direct} | Ext: ${data.extension}`
 
   useEffect(() => {
@@ -105,8 +138,8 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
           <tr>
             <td
               style={{
-                width: "180px",
-                minWidth: "180px",
+                width: `${currentLogoConfig.width}px`,
+                minWidth: `${currentLogoConfig.width}px`,
                 borderRight: "1pt solid black",
                 borderTop: "0",
                 borderBottom: "0",
@@ -126,7 +159,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                 <img
                   src={data.logoBase64 || "/images/LAUGFS Holdings.png"}
                   alt="Company Logo"
-                  style={{ display: "block", width: "180px", height: "auto", objectFit: "contain", marginLeft: "auto", marginRight: "auto" }}
+                  style={{ display: "block", width: `${currentLogoConfig.width}px`, height: currentLogoConfig.height, objectFit: "contain", marginLeft: "auto", marginRight: "auto" }}
                 />
               </p>
             </td>
@@ -242,6 +275,19 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
               >
                 {mobileText}
               </p>
+              {data.extension.length !== 4 && (
+                <p
+                  style={{
+                    marginTop: "4.0pt",
+                    marginBottom: "4.0pt",
+                    lineHeight: "1.0",
+                    fontSize: "10pt",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {telText}
+                </p>
+              )}
               {showContactInfo && (
                 <p
                   style={{

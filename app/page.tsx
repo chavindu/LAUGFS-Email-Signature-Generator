@@ -556,6 +556,35 @@ const departments = [
 ]
 
 export default function HomePage() {
+  // Company logo configuration - easily change individual logo dimensions
+  const COMPANY_LOGO_CONFIG = {
+    holdings: { width: 180, height: "auto" },
+    gas: { width: 180, height: "auto" },
+    petroleum: { width: 180, height: "auto" },
+    power: { width: 180, height: "auto" },
+    terminals: { width: 180, height: "auto" },
+    engineering: { width: 180, height: "auto" },
+    property: { width: 180, height: "auto" },
+    leisure: { width: 180, height: "auto" },
+    lifeSciences: { width: 180, height: "auto" },
+    lubricants: { width: 180, height: "auto" },
+    saltAndChemicals: { width: 180, height: "auto" },
+    super: { width: 180, height: "auto" },
+    restaurants: { width: 180, height: "auto" },
+    rubber: { width: 180, height: "auto" },
+    maritime: { width: 180, height: "auto" },
+    international: { width: 180, height: "auto" },
+    europe: { width: 180, height: "auto" },
+    usa: { width: 180, height: "auto" },
+    ecoSri: { width: 180, height: "auto" },
+    businessSolutions: { width: 180, height: "auto" },
+    anantayaChilaw: { width: 180, height: "auto" },
+    anantayaPassikuda: { width: 180, height: "auto" },
+    slogal: { width: 180, height: "auto" },
+    southernPetroleum: { width: 180, height: "auto" },
+    custom: { width: 180, height: "auto" }
+  }
+
   const [signatureData, setSignatureData] = useState({
     firstName: "",
     lastName: "",
@@ -752,9 +781,9 @@ export default function HomePage() {
   const getCurrentLogoBase64 = async () => {
     if (signatureData.selectedLogo === "custom") {
       if (signatureData.customLogoBase64) {
-        // Custom main logo should be width 180px (height auto)
-        // Convert by width for consistency
-        const resizeByWidth = (base64: string, targetWidth = 180): Promise<string> => {
+        // Custom main logo uses custom configuration
+        const config = COMPANY_LOGO_CONFIG.custom
+        const resizeByWidth = (base64: string, targetWidth = config.width): Promise<string> => {
           return new Promise((resolve) => {
             const img = new Image()
             img.onload = () => {
@@ -770,7 +799,7 @@ export default function HomePage() {
             img.src = base64
           })
         }
-        return await resizeByWidth(signatureData.customLogoBase64, 180)
+        return await resizeByWidth(signatureData.customLogoBase64, config.width)
       }
       return ""
     }
@@ -868,8 +897,11 @@ export default function HomePage() {
       return 0
     }
 
-    // Main logo width fixed at 180px for table cell
-    const logoWidth = 180
+    // Get current company logo configuration
+    const currentLogoConfig = COMPANY_LOGO_CONFIG[signatureData.selectedLogo as keyof typeof COMPANY_LOGO_CONFIG] || COMPANY_LOGO_CONFIG.holdings
+
+    // Main logo width from configuration
+    const logoWidth = currentLogoConfig.width
 
     // Calculate name column width with proper bold text measurement
     const nameWidth = calculateTextWidth(fullName, true) // Bold text
@@ -879,11 +911,13 @@ export default function HomePage() {
 
     // Calculate contact column width using the longest of address/mobile/direct
     const addressWidth = calculateTextWidth(signatureData.address, false)
-    const mobileText = `Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222`
+    const mobileText = showContactInfo ? `Mobile: ${signatureData.mobile} | Tel: +94 11 55 66 222` : `Mobile: ${signatureData.mobile}`
     const mobileWidth = calculateTextWidth(mobileText, false)
+    const telText = showContactInfo ? "" : "Tel: +94 11 55 66 222"
+    const telWidth = showContactInfo ? 0 : calculateTextWidth(telText, false)
     const directText = `Direct: ${signatureData.direct} | Ext: ${signatureData.extension}`
     const directWidth = showContactInfo ? calculateTextWidth(directText, false) : 0
-    const contactWidth = Math.max(addressWidth, mobileWidth, directWidth)
+    const contactWidth = Math.max(addressWidth, mobileWidth, telWidth, directWidth)
 
     return `<!--[if mso]>
 <style>
@@ -898,8 +932,8 @@ table, td, tr {
     <tbody>
         <tr>
             <!-- Main logo column -->
-            <td style="width:180px; min-width:180px; border:none; padding:0px 15px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:180px; height:auto; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
+            <td style="width:${logoWidth}px; min-width:${logoWidth}px; border:none; padding:0px 15px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:${currentLogoConfig.width}px; height:${currentLogoConfig.height}; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
             </td>
             <!-- Separator 1 (short, centered) -->
             <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; color:inherit;">
@@ -939,6 +973,7 @@ table, td, tr {
             <td style="width:auto; min-width:${contactWidth}px; border:none; padding:0px 0px 0px 15px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.address}</p>
                 <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${mobileText}</p>
+                ${!showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${telText}</p>` : ""}
                 ${showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${directText}</p>` : ""}
             </td>
         </tr>
