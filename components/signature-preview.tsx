@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
+import { COMPANY_LOGO_CONFIG, COMPANY_DOMAINS, getLogoConfig, getCompanyDomain } from "@/lib/logo-config"
 
 interface SignaturePreviewProps {
   data: {
@@ -18,52 +19,7 @@ interface SignaturePreviewProps {
   htmlContent?: string
 }
 
-const companyDomains: { [key: string]: { display: string; url: string } } = {
-  lubricants: { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com" },
-  international: { display: "www.laugfsinternational.lk", url: "https://www.laugfsinternational.lk" },
-  holdings: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  gas: { display: "www.laugfsgas.lk", url: "https://www.laugfsgas.lk" },
-  engineering: { display: "www.laugfsengineering.lk", url: "https://www.laugfsengineering.lk" },
-  "eco-sri": { display: "www.ecosri.lk", url: "https://www.ecosri.lk" },
-  rubber: { display: "www.laugfsrubber.com", url: "https://www.laugfsrubber.com" },
-  petroleum: { display: "laugfspetroleum.lk", url: "http://laugfspetroleum.lk" },
-  power: { display: "laugfspower.lk", url: "https://laugfspower.lk" },
-  "life-sciences": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  restaurants: { display: "www.jade.lk", url: "https://www.jade.lk" },
-  "salt-chemicals": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  custom: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-}
-
 export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
-  // Company logo configuration - matches main page
-  const COMPANY_LOGO_CONFIG = {
-    "anantaya-chilaw": { width: 144, height: 90 },
-    "anantaya-passikudah": { width: 144, height: 90 },
-    "business-solutions": { width: 180, height: "auto" },
-    "eco-sri": { width: 180, height: "auto" },
-    engineering: { width: 180, height: "auto" },
-    "europe-bv": { width: 180, height: "auto" },
-    gas: { width: 180, height: "auto" },
-    holdings: { width: 180, height: "auto" },
-    international: { width: 180, height: "auto" },
-    leisure: { width: 180, height: "auto" },
-    "life-sciences": { width: 180, height: "auto" },
-    lubricants: { width: 180, height: "auto" },
-    "lubricants-bangladesh": { width: 180, height: "auto" },
-    maritime: { width: 180, height: "auto" },
-    petroleum: { width: 180, height: "auto" },
-    power: { width: 180, height: "auto" },
-    property: { width: 180, height: "auto" },
-    restaurants: { width: 180, height: "auto" },
-    rubber: { width: 180, height: "auto" },
-    "salt-chemicals": { width: 180, height: "auto" },
-    slogal: { width: 180, height: "auto" },
-    "southern-petroleum": { width: 180, height: "auto" },
-    super: { width: 180, height: "auto" },
-    terminals: { width: 180, height: "auto" },
-    "usa-llc": { width: 180, height: "auto" },
-    custom: { width: 180, height: "auto" },
-  }
 
   // If full HTML is provided, render it directly to ensure perfect parity with exported/copied HTML
   if (htmlContent) {
@@ -78,10 +34,10 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
   const nameRef = useRef<HTMLParagraphElement>(null)
 
   const showContactInfo = data.extension.length === 4
-  const domain = companyDomains[data.selectedLogo] || companyDomains["holdings"]
+  const domain = getCompanyDomain(data.selectedLogo)
   
   // Get current company logo configuration
-  const currentLogoConfig = COMPANY_LOGO_CONFIG[data.selectedLogo as keyof typeof COMPANY_LOGO_CONFIG] || COMPANY_LOGO_CONFIG.holdings
+  const currentLogoConfig = getLogoConfig(data.selectedLogo)
   
   // Define text variables for rendering
   const addressText = data.address
@@ -215,6 +171,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                   lineHeight: "1.0",
                   fontSize: "11pt",
                   whiteSpace: "nowrap",
+                  textAlign: "left",
                 }}
               >
                 <strong>{data.fullName}</strong>
@@ -226,6 +183,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                   lineHeight: "1.0",
                   fontSize: "10pt",
                   whiteSpace: "nowrap",
+                  textAlign: "left",
                 }}
               >
                 {data.designation}
@@ -237,6 +195,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                   lineHeight: "1.0",
                   fontSize: "10pt",
                   whiteSpace: "nowrap",
+                  textAlign: "left",
                 }}
               >
                 {data.department}
@@ -261,6 +220,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                   lineHeight: "1.0",
                   fontSize: "10pt",
                   whiteSpace: "nowrap",
+                  textAlign: "left",
                 }}
               >
                 {addressText}
@@ -272,6 +232,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                   lineHeight: "1.0",
                   fontSize: "10pt",
                   whiteSpace: "nowrap",
+                  textAlign: "left",
                 }}
               >
                 {mobileText}
@@ -284,6 +245,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                     lineHeight: "1.0",
                     fontSize: "10pt",
                     whiteSpace: "nowrap",
+                    textAlign: "left",
                   }}
                 >
                   {telText}
@@ -297,6 +259,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                     lineHeight: "1.0",
                     fontSize: "10pt",
                     whiteSpace: "nowrap",
+                    textAlign: "left",
                   }}
                 >
                   {directText}

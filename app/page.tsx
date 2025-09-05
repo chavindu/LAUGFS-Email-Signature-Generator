@@ -2,6 +2,7 @@
 
 import type React from "react"
 
+import { COMPANY_LOGO_CONFIG, COMPANY_DOMAINS, getLogoConfig, getCompanyDomain } from "@/lib/logo-config"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -14,37 +15,6 @@ import { SignaturePreview } from "@/components/signature-preview"
 import { RichTextCopy } from "@/components/rich-text-copy"
 import { ImageUpload } from "@/components/image-upload"
 
-const companyDomains = {
-  "anantaya-chilaw": { display: "www.anantaya.lk/chilaw/", url: "https://www.anantaya.lk/chilaw/" },
-  "anantaya-passikudah": { display: "www.anantaya.lk/passikudah/", url: "https://www.anantaya.lk/passikudah/" },
-  "business-solutions": { display: "www.laugfs.lk", url: "https://www.laugfs.lk/" },
-  "eco-sri": { display: "www.ecosri.lk", url: "https://www.ecosri.lk" },
-  engineering: { display: "www.laugfsengineering.lk", url: "https://www.laugfsengineering.lk" },
-  "europe-bv": { display: "www.laugfs.eu", url: "https://laugfs.eu/" },
-  gas: { display: "www.laugfsgas.lk", url: "https://www.laugfsgas.lk" },
-  holdings: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  international: { display: "www.laugfsinternational.lk", url: "https://www.laugfsinternational.lk" },
-  leisure: { display: "www.laugfs.lk/hospitality", url: "https://www.laugfs.lk/hospitality" },
-  "life-sciences": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  lubricants: { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com" },
-  "lubricants-bangladesh": { display: "www.laugfslubricants.com", url: "https://www.laugfslubricants.com/" },
-  maritime: { display: "www.laugfsmaritime.com", url: "https://www.laugfsmaritime.com/" },
-  petroleum: { display: "laugfspetroleum.lk", url: "http://laugfspetroleum.lk" },
-  power: { display: "laugfspower.lk", url: "https://laugfspower.lk" },
-  property: { display: "www.laugfs.lk", url: "https://www.laugfs.lk/" },
-  restaurants: { display: "www.jade.lk", url: "https://www.jade.lk" },
-  rubber: { display: "www.laugfsrubber.com", url: "https://www.laugfsrubber.com" },
-  "salt-chemicals": { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-  slogal: { display: "www.slogal.com", url: "https://www.slogal.com/" },
-  "southern-petroleum": {
-    display: "laugfspetroleum.lk/southern-petroleum.php",
-    url: "http://laugfspetroleum.lk/southern-petroleum.php",
-  },
-  super: { display: "laugfsholdings.com/super/", url: "https://laugfsholdings.com/super/" },
-  terminals: { display: "www.laugfs.lk/logistics", url: "https://www.laugfs.lk/logistics" },
-  "usa-llc": { display: "www.laugfsusa.com", url: "https://laugfsusa.com/" },
-  custom: { display: "www.laugfs.lk", url: "https://www.laugfs.lk" },
-}
 
 const companyLogos = [
   { id: "anantaya-chilaw", name: "Anantaya Resort and Spa Chilaw", path: "/images/Anantaya Resort and Spa Chilaw.png" },
@@ -556,35 +526,6 @@ const departments = [
 ]
 
 export default function HomePage() {
-  // Company logo configuration - easily change individual logo dimensions
-  const COMPANY_LOGO_CONFIG = {
-    "anantaya-chilaw": { width: 144, height: 90 },
-    "anantaya-passikudah": { width: 144, height: 90 },
-    "business-solutions": { width: 180, height: "auto" },
-    "eco-sri": { width: 180, height: "auto" },
-    engineering: { width: 180, height: "auto" },
-    "europe-bv": { width: 180, height: "auto" },
-    gas: { width: 180, height: "auto" },
-    holdings: { width: 180, height: "auto" },
-    international: { width: 180, height: "auto" },
-    leisure: { width: 180, height: "auto" },
-    "life-sciences": { width: 180, height: "auto" },
-    lubricants: { width: 180, height: "auto" },
-    "lubricants-bangladesh": { width: 180, height: "auto" },
-    maritime: { width: 180, height: "auto" },
-    petroleum: { width: 180, height: "auto" },
-    power: { width: 180, height: "auto" },
-    property: { width: 180, height: "auto" },
-    restaurants: { width: 180, height: "auto" },
-    rubber: { width: 180, height: "auto" },
-    "salt-chemicals": { width: 180, height: "auto" },
-    slogal: { width: 180, height: "auto" },
-    "southern-petroleum": { width: 180, height: "auto" },
-    super: { width: 180, height: "auto" },
-    terminals: { width: 180, height: "auto" },
-    "usa-llc": { width: 180, height: "auto" },
-    custom: { width: 180, height: "auto" },
-  }
 
   const [signatureData, setSignatureData] = useState({
     firstName: "",
@@ -872,7 +813,7 @@ export default function HomePage() {
       const url = domain.startsWith("http") ? domain : `https://${domain}`
       return { display: domain, url }
     }
-    return companyDomains[signatureData.selectedLogo as keyof typeof companyDomains] || companyDomains.holdings
+    return getCompanyDomain(signatureData.selectedLogo)
   }
 
   const getFullName = () => {
@@ -899,7 +840,7 @@ export default function HomePage() {
     }
 
     // Get current company logo configuration
-    const currentLogoConfig = COMPANY_LOGO_CONFIG[signatureData.selectedLogo as keyof typeof COMPANY_LOGO_CONFIG] || COMPANY_LOGO_CONFIG.holdings
+    const currentLogoConfig = getLogoConfig(signatureData.selectedLogo)
 
     // Main logo width from configuration
     const logoWidth = currentLogoConfig.width
@@ -958,9 +899,9 @@ table, td, tr {
             </td>` : ``}
             <!-- Name column -->
             <td style="width:auto; min-width:${maxTextWidth}px; border:none; padding:0px 15px 0px 15px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif; white-space:nowrap;"><strong>${fullName}</strong></p>
-                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.designation}</p>
-                <p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.department}</p>
+                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:11pt; font-family:Calibri,sans-serif; white-space:nowrap; text-align:left;"><strong>${fullName}</strong></p>
+                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap; text-align:left;">${signatureData.designation}</p>
+                <p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap; text-align:left;">${signatureData.department}</p>
             </td>
             <!-- Separator 3 (short, centered) -->
             <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; color:inherit;">
@@ -972,10 +913,10 @@ table, td, tr {
             </td>
             <!-- Contact column -->
             <td style="width:auto; min-width:${contactWidth}px; border:none; padding:0px 0px 0px 15px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${signatureData.address}</p>
-                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${mobileText}</p>
-                ${!showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${telText}</p>` : ""}
-                ${showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap;">${directText}</p>` : ""}
+                <p style="margin-top:12.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap; text-align:left;">${signatureData.address}</p>
+                <p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap; text-align:left;">${mobileText}</p>
+                ${!showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:4.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap; text-align:left;">${telText}</p>` : ""}
+                ${showContactInfo ? `<p style="margin-top:4.0pt; margin-bottom:8.0pt; line-height:1.0; font-size:10pt; font-family:Calibri,sans-serif; white-space:nowrap; text-align:left;">${directText}</p>` : ""}
             </td>
         </tr>
         <tr>
