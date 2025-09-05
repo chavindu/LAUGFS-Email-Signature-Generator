@@ -7,9 +7,9 @@ export interface LogoConfig {
 }
 
 export const COMPANY_LOGO_CONFIG: Record<string, LogoConfig> = {
-  "anantaya-chilaw": { width: 144, height: 90 },
-  "anantaya-passikudah": { width: 144, height: 90 },
-  "business-solutions": { width: 180, height: "auto" },
+  "anantaya-chilaw": { width: 132, height: "auto" },
+  "anantaya-passikudah": { width: 132, height: "auto" },
+  "business-solutions": { width: 220, height: "auto" },
   "eco-sri": { width: 180, height: "auto" },
   engineering: { width: 180, height: "auto" },
   "europe-bv": { width: 180, height: "auto" },

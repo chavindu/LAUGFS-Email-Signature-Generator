@@ -1229,25 +1229,26 @@ table, td, tr {
                   <p className="text-xs text-gray-500">Format: +94 7X XX XX XXX</p>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="extension">Extension (Optional)</Label>
-                  <Input
-                    id="extension"
-                    placeholder="6413"
-                    value={signatureData.extension}
-                    onChange={handleExtensionChange}
-                    className="max-w-32"
-                    maxLength={4}
-                  />
-                  <p className="text-xs text-gray-500">4 digits only. Direct line will be auto-generated.</p>
-                </div>
-
-                {signatureData.extension.length === 4 && (
-                  <div className="space-y-2">
-                    <Label htmlFor="direct">Direct Line (Auto-generated)</Label>
-                    <Input id="direct" value={signatureData.direct} readOnly className="bg-gray-50" />
+                <div className="flex gap-4">
+                  <div className="space-y-2 flex-1">
+                    <Label htmlFor="extension">Extension (Optional)</Label>
+                    <Input
+                      id="extension"
+                      placeholder="6413"
+                      value={signatureData.extension}
+                      onChange={handleExtensionChange}
+                      maxLength={4}
+                    />
+                    <p className="text-xs text-gray-500">4 digits only. Direct line will be auto-generated.</p>
                   </div>
-                )}
+
+                  {signatureData.extension.length === 4 && (
+                    <div className="space-y-2 flex-1">
+                      <Label htmlFor="direct">Direct Line (Auto-generated)</Label>
+                      <Input id="direct" value={signatureData.direct} readOnly className="bg-gray-50" />
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="flex gap-2 pt-4">
