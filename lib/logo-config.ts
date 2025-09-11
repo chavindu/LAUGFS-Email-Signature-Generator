@@ -29,7 +29,7 @@ export const COMPANY_LOGO_CONFIG: Record<string, LogoConfig> = {
   "salt-chemicals": { width: 180, height: "auto" },
   slogal: { width: 180, height: "auto" },
   "southern-petroleum": { width: 180, height: "auto" },
-  super: { width: 180, height: "auto" },
+  super: { width: 165, height: "auto" },
   terminals: { width: 180, height: "auto" },
   "usa-llc": { width: 180, height: "auto" },
   custom: { width: 180, height: "auto" },

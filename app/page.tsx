@@ -886,7 +886,7 @@ table, td, tr {
               </table>
             </td>
             <!-- 2nd logo column (conditional) -->
-            ${secondLogoSrc ? `<td style="width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; min-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; max-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; border:none; padding:0px 15px 0px 15px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+            ${secondLogoSrc ? `<td style="width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; min-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; max-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; border:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
                 <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left; margin-bottom:10px;"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 'px' : 'auto'}; height:90px; object-fit:contain; margin:0; padding:0;"></p>
             </td>
             <!-- Separator 2 (short, centered) -->

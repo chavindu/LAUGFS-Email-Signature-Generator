@@ -31,6 +31,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
   }
   const [nameWidth, setNameWidth] = useState(0)
   const [contactMinWidth, setContactMinWidth] = useState(0)
+  const [secondLogoComputedWidth, setSecondLogoComputedWidth] = useState<number | null>(null)
   const nameRef = useRef<HTMLParagraphElement>(null)
 
   const showContactInfo = data.extension.length === 4
@@ -78,6 +79,30 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
     setContactMinWidth(contactWidth)
   }, [data.fullName, data.designation, data.department, addressText, mobileText, directText, showContactInfo])
 
+  // Compute second (anniversary) logo width based on intrinsic aspect ratio at fixed height 90px,
+  // use exact measured width to avoid extra right-side spacing for narrow logos (fallback 177)
+  useEffect(() => {
+    const compute = async () => {
+      if (!data.secondLogoBase64) {
+        setSecondLogoComputedWidth(null)
+        return
+      }
+      const img = new Image()
+      img.onload = () => {
+        if (img.height > 0) {
+          const aspectRatio = img.width / img.height
+          const measured = Math.round(90 * aspectRatio)
+          setSecondLogoComputedWidth(measured)
+        } else {
+          setSecondLogoComputedWidth(177)
+        }
+      }
+      img.onerror = () => setSecondLogoComputedWidth(177)
+      img.src = data.secondLogoBase64
+    }
+    compute()
+  }, [data.secondLogoBase64])
+
   return (
     <div className="border rounded-lg p-4 bg-white overflow-auto">
       <table
@@ -123,24 +148,26 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
             {data.secondLogoBase64 && (
               <td
                 style={{
-                  width: "177px",
-                  minWidth: "177px",
-                  maxWidth: "177px",
+                  width: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "177px",
+                  minWidth: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "177px",
+                  maxWidth: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "177px",
                   borderRight: "1pt solid black",
                   borderTop: "0",
                   borderBottom: "0",
                   borderLeft: "0",
-                  padding: "0px 20px 0px 20px",
+                  padding: "0px",
                   verticalAlign: "top",
+                  textAlign: "center",
                 }}
               >
                 <p
                   style={{
                     margin: "0 0 10px 0",
                     padding: "0",
-                    lineHeight: "115%",
+                    lineHeight: "0",
                     fontSize: "10pt",
                     textAlign: "left",
+                    display: "inline-block",
                   }}
                 >
                   <img
