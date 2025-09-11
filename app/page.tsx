@@ -987,7 +987,7 @@ table, td, tr {
             <div className="flex items-center gap-4">
               <img src="/favicon.png" alt="App Icon" className="h-10 w-10" />
               <div className="h-10 w-px bg-gray-300"></div>
-              <img src="/images/LAUGFS-logo.png" alt="LAUGFS Holdings" className="h-10" />
+              <img src="/images/LAUGFS.png" alt="LAUGFS Holdings" className="h-10" />
             </div>
 
             {/* Right side - Text */}
