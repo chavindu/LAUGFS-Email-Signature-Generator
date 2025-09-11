@@ -80,7 +80,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
   }, [data.fullName, data.designation, data.department, addressText, mobileText, directText, showContactInfo])
 
   // Compute second (anniversary) logo width based on intrinsic aspect ratio at fixed height 90px,
-  // use exact measured width to avoid extra right-side spacing for narrow logos (fallback 177)
+  // store measured content width and later add 20px to account for 10px left/right padding (fallback 177)
   useEffect(() => {
     const compute = async () => {
       if (!data.secondLogoBase64) {
@@ -92,7 +92,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
         if (img.height > 0) {
           const aspectRatio = img.width / img.height
           const measured = Math.round(90 * aspectRatio)
-          setSecondLogoComputedWidth(measured)
+          setSecondLogoComputedWidth(measured + 20)
         } else {
           setSecondLogoComputedWidth(177)
         }
@@ -128,34 +128,37 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                 borderLeft: "0",
                 padding: "0px 20px 0px 0px",
                 verticalAlign: "middle",
+                textAlign: "center",
               }}
             >
               <p
                 style={{
                   margin: "0",
                   padding: "0",
-                  lineHeight: "115%",
-                  textAlign: "center",
+                  lineHeight: "0",
+                  fontSize: "0",
+                  textAlign: "left",
+                  display: "inline-block",
                 }}
               >
                 <img
                   src={data.logoBase64 || "/images/LAUGFS Holdings.png"}
                   alt="Company Logo"
-                  style={{ display: "block", width: `${currentLogoConfig.width}px`, height: currentLogoConfig.height, objectFit: "contain", marginLeft: "auto", marginRight: "auto" }}
+                  style={{ display: "inline-block", width: `${currentLogoConfig.width}px`, height: currentLogoConfig.height, objectFit: "contain", margin: "0", padding: "0" }}
                 />
               </p>
             </td>
             {data.secondLogoBase64 && (
               <td
                 style={{
-                  width: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "177px",
-                  minWidth: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "177px",
-                  maxWidth: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "177px",
+                  width: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "197px",
+                  minWidth: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "197px",
+                  maxWidth: secondLogoComputedWidth ? `${secondLogoComputedWidth}px` : "197px",
                   borderRight: "1pt solid black",
                   borderTop: "0",
                   borderBottom: "0",
                   borderLeft: "0",
-                  padding: "0px",
+                  padding: "0px 10px",
                   verticalAlign: "top",
                   textAlign: "center",
                 }}
@@ -165,9 +168,10 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                     margin: "0 0 10px 0",
                     padding: "0",
                     lineHeight: "0",
-                    fontSize: "10pt",
+                    fontSize: "0",
                     textAlign: "left",
                     display: "inline-block",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   <img

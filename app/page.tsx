@@ -874,8 +874,8 @@ table, td, tr {
     <tbody>
         <tr>
             <!-- Main logo column -->
-            <td style="width:${logoWidth}px; min-width:${logoWidth}px; border:none; padding:0px 15px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:center;"><img src="${logoSrc}" alt="Company Logo" style="display:block; width:${currentLogoConfig.width}px; height:${currentLogoConfig.height}; object-fit:contain; margin-left:auto; margin-right:auto;"></p>
+            <td style="width:${logoWidth}px; min-width:${logoWidth}px; border:none; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; text-align:center;">
+                <p style="margin:0; padding:0; line-height:0; font-size:0; font-family:Calibri,sans-serif; text-align:left; display:inline-block;"><img src="${logoSrc}" alt="Company Logo" style="display:inline-block; width:${currentLogoConfig.width}px; height:${currentLogoConfig.height}; object-fit:contain; margin:0; padding:0;"></p>
             </td>
             <!-- Separator 1 (short, centered) -->
             <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; color:inherit;">
@@ -886,8 +886,8 @@ table, td, tr {
               </table>
             </td>
             <!-- 2nd logo column (conditional) -->
-            ${secondLogoSrc ? `<td style="width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; min-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; max-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 30 : 177}px; border:none; padding:0px 20px 0px 20px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt;">
-                <p style="margin:0; padding:0; line-height:115%; font-size:10pt; font-family:Calibri,sans-serif; text-align:left; margin-bottom:10px;"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 'px' : 'auto'}; height:90px; object-fit:contain; margin:0; padding:0;"></p>
+            ${secondLogoSrc ? `<td style="width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 20 : 197}px; min-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 20 : 197}px; max-width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 20 : 197}px; border:none; padding:0 10px; vertical-align:top; mso-table-lspace:0pt; mso-table-rspace:0pt; text-align:center;">
+                <p style="margin:0 0 10px 0; padding:0; line-height:0; font-size:0; font-family:Calibri,sans-serif; text-align:left; display:inline-block; white-space:nowrap;"><img src="${secondLogoSrc}" alt="Anniversary Logo" style="display:block; width:${secondLogoDimensionsMap[secondLogoKey] ? secondLogoDimensionsMap[secondLogoKey].width + 'px' : 'auto'}; height:90px; object-fit:contain; margin:0; padding:0;"></p>
             </td>
             <!-- Separator 2 (short, centered) -->
             <td style="width:1px; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; color:inherit;">
