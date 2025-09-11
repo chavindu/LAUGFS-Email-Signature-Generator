@@ -983,16 +983,11 @@ table, td, tr {
       <header className="bg-white shadow-lg border-b-4 border-[#FFC000]">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            {/* Left side - Icon and Logo */}
+            {/* Left side - App icon (SVG preferred) and Logo */}
             <div className="flex items-center gap-4">
-              <div className="relative">
-                <Mail className="h-10 w-10 text-[#FFC000]" />
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-600 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">✓</span>
-                </div>
-              </div>
+              <img src="/favicon.png" alt="App Icon" className="h-10 w-10" />
               <div className="h-10 w-px bg-gray-300"></div>
-              <img src="/images/LAUGFS Holdings.png" alt="LAUGFS Holdings" className="h-10" />
+              <img src="/images/LAUGFS-logo.png" alt="LAUGFS Holdings" className="h-10" />
             </div>
 
             {/* Right side - Text */}
@@ -1294,9 +1289,6 @@ table, td, tr {
       {/* Footer */}
       <footer className="bg-white border-t-4 border-[#FFC000] mt-12">
         <div className="container mx-auto px-4 py-6 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <img src="/images/LAUGFS Holdings.png" alt="LAUGFS Holdings" className="h-6" />
-          </div>
           <p className="text-gray-600">Crafted with ❤️ by ITSM Team</p>
         </div>
       </footer>

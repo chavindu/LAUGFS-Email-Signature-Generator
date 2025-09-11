@@ -10,7 +10,12 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Email Signature Generator - LAUGFS Group",
   description: "Create professional email signatures for LAUGFS Group companies",
-    generator: 'v0.dev'
+    generator: 'v0.dev',
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png"
+  }
 }
 
 export default function RootLayout({
