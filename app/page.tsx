@@ -874,7 +874,7 @@ table, td, tr {
     <tbody>
         <tr>
             <!-- Main logo column -->
-            <td style="width:${logoWidth}px; min-width:${logoWidth}px; border:none; padding:0; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; text-align:center;">
+            <td style="width:${logoWidth}px; min-width:${logoWidth}px; border:none; padding:0px 15px 0px 0px; vertical-align:middle; mso-table-lspace:0pt; mso-table-rspace:0pt; text-align:center;">
                 <p style="margin:0; padding:0; line-height:0; font-size:0; font-family:Calibri,sans-serif; text-align:left; display:inline-block;"><img src="${logoSrc}" alt="Company Logo" style="display:inline-block; width:${currentLogoConfig.width}px; height:${currentLogoConfig.height}; object-fit:contain; margin:0; padding:0;"></p>
             </td>
             <!-- Separator 1 (short, centered) -->

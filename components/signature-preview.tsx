@@ -122,11 +122,8 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
               style={{
                 width: `${currentLogoConfig.width}px`,
                 minWidth: `${currentLogoConfig.width}px`,
-                borderRight: "1pt solid black",
-                borderTop: "0",
-                borderBottom: "0",
-                borderLeft: "0",
-                padding: "0px 20px 0px 0px",
+                border: "none",
+                padding: "0px 15px 0px 0px",
                 verticalAlign: "middle",
                 textAlign: "center",
               }}
@@ -148,6 +145,42 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                 />
               </p>
             </td>
+            {/* Separator 1 (short, centered) */}
+            <td
+              style={{
+                width: "1px",
+                padding: "0",
+                verticalAlign: "middle",
+                color: "inherit",
+              }}
+            >
+              <table
+                role="presentation"
+                border={0}
+                cellPadding="0"
+                cellSpacing="0"
+                style={{
+                  borderCollapse: "collapse",
+                  margin: "0 auto",
+                  color: "inherit",
+                }}
+              >
+                <tbody>
+                  <tr>
+                    <td
+                      style={{
+                        borderRight: "1pt solid currentColor",
+                        height: "60px",
+                        lineHeight: "60px",
+                        fontSize: "0",
+                      }}
+                    >
+                      &nbsp;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
             {data.secondLogoBase64 && (
               <td
                 style={{
@@ -158,7 +191,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
                   borderTop: "0",
                   borderBottom: "0",
                   borderLeft: "0",
-                  padding: "0px 10px",
+                  padding: "0px 20px 0px 20px",
                   verticalAlign: "top",
                   textAlign: "center",
                 }}
@@ -300,7 +333,7 @@ export function SignaturePreview({ data, htmlContent }: SignaturePreviewProps) {
           </tr>
           <tr>
             <td
-              colSpan={data.secondLogoBase64 ? 4 : 3}
+              colSpan={data.secondLogoBase64 ? 5 : 4}
               style={{
                 width: "100%",
                 background: "#FFC000",
