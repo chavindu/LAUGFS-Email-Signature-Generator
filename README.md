@@ -257,7 +257,7 @@ For technical support or feature requests, please contact the ITSM team or creat
 
 ---
 
-**Version**: 0.1.0  
-**Last Updated**: [![Last Updated](https://img.shields.io/github/last-commit/chavindu/LAUGFS-Email-Signature-Generator?label=Last%20Updated&style=flat-square)](https://github.com/chavindu/LAUGFS-Email-Signature-Generator)  
-**Framework**: Next.js 15.5.0  
-**Status**: Production Ready ✅
+[![Version](https://img.shields.io/badge/Version-0.1.0-blue?style=flat-square)](https://github.com/chavindu/LAUGFS-Email-Signature-Generator)  
+[![Last Updated](https://img.shields.io/github/last-commit/chavindu/LAUGFS-Email-Signature-Generator?label=Last%20Updated&style=flat-square)](https://github.com/chavindu/LAUGFS-Email-Signature-Generator)  
+[![Framework](https://img.shields.io/badge/Framework-Next.js%2015.5.0-black?style=flat-square&logo=next.js)](https://nextjs.org/)  
+[![Status](https://img.shields.io/badge/Status-Production%20Ready-green?style=flat-square)](https://github.com/chavindu/LAUGFS-Email-Signature-Generator)
